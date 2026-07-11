@@ -1,16 +1,5 @@
-// Local Storage Service
+import { STORAGE_KEYS } from '../utils/constants.js';
 
-const STORAGE_KEYS = {
-    BOOKINGS: 'skyTicket_bookings',
-    USER: 'skyTicket_user',
-    SEARCH_HISTORY: 'skyTicket_searchHistory',
-    SELECTED_FLIGHT: 'skyTicket_selectedFlight',
-    BOOKING_DATA: 'skyTicket_bookingData',
-};
-
-/**
- * Save data to localStorage
- */
 export const saveToStorage = (key, data) => {
     try {
         localStorage.setItem(key, JSON.stringify(data));
@@ -21,9 +10,6 @@ export const saveToStorage = (key, data) => {
     }
 };
 
-/**
- * Get data from localStorage
- */
 export const getFromStorage = (key) => {
     try {
         const data = localStorage.getItem(key);
@@ -34,9 +20,6 @@ export const getFromStorage = (key) => {
     }
 };
 
-/**
- * Remove data from localStorage
- */
 export const removeFromStorage = (key) => {
     try {
         localStorage.removeItem(key);
@@ -47,9 +30,6 @@ export const removeFromStorage = (key) => {
     }
 };
 
-/**
- * Clear all app data from localStorage
- */
 export const clearStorage = () => {
     try {
         Object.values(STORAGE_KEYS).forEach(key => {
@@ -62,96 +42,86 @@ export const clearStorage = () => {
     }
 };
 
-/**
- * Save booking to storage
- */
 export const saveBooking = (booking) => {
     const bookings = getFromStorage(STORAGE_KEYS.BOOKINGS) || [];
     bookings.push(booking);
     return saveToStorage(STORAGE_KEYS.BOOKINGS, bookings);
 };
 
-/**
- * Get all bookings
- */
 export const getBookings = () => {
     return getFromStorage(STORAGE_KEYS.BOOKINGS) || [];
 };
 
-/**
- * Get booking by PNR
- */
 export const getBookingByPNR = (pnr) => {
     const bookings = getBookings();
     return bookings.find(booking => booking.pnr === pnr);
 };
 
-/**
- * Save user data
- */
+export const cancelBooking = (pnr) => {
+    const bookings = getBookings();
+    const index = bookings.findIndex(b => b.pnr === pnr);
+    if (index !== -1) {
+        bookings[index].status = 'cancelled';
+        return saveToStorage(STORAGE_KEYS.BOOKINGS, bookings);
+    }
+    return false;
+};
+
 export const saveUser = (user) => {
     return saveToStorage(STORAGE_KEYS.USER, user);
 };
 
-/**
- * Get user data
- */
 export const getUser = () => {
     return getFromStorage(STORAGE_KEYS.USER);
 };
 
-/**
- * Save selected flight
- */
 export const saveSelectedFlight = (flight) => {
     return saveToStorage(STORAGE_KEYS.SELECTED_FLIGHT, flight);
 };
 
-/**
- * Get selected flight
- */
 export const getSelectedFlight = () => {
     return getFromStorage(STORAGE_KEYS.SELECTED_FLIGHT);
 };
 
-/**
- * Save booking data (in-progress)
- */
+export const clearSelectedFlight = () => {
+    return removeFromStorage(STORAGE_KEYS.SELECTED_FLIGHT);
+};
+
 export const saveBookingData = (data) => {
     return saveToStorage(STORAGE_KEYS.BOOKING_DATA, data);
 };
 
-/**
- * Get booking data (in-progress)
- */
 export const getBookingData = () => {
     return getFromStorage(STORAGE_KEYS.BOOKING_DATA);
 };
 
-/**
- * Clear booking data
- */
 export const clearBookingData = () => {
     return removeFromStorage(STORAGE_KEYS.BOOKING_DATA);
 };
 
-/**
- * Save search history
- */
 export const saveSearchHistory = (search) => {
     let history = getFromStorage(STORAGE_KEYS.SEARCH_HISTORY) || [];
     history.unshift({
         ...search,
         timestamp: new Date().toISOString(),
     });
-    // Keep only last 10 searches
     history = history.slice(0, 10);
     return saveToStorage(STORAGE_KEYS.SEARCH_HISTORY, history);
 };
 
-/**
- * Get search history
- */
 export const getSearchHistory = () => {
     return getFromStorage(STORAGE_KEYS.SEARCH_HISTORY) || [];
+};
+
+export const getUsers = () => {
+    return getFromStorage(STORAGE_KEYS.USERS) || [];
+};
+
+export const saveUsers = (users) => {
+    return saveToStorage(STORAGE_KEYS.USERS, users);
+};
+
+export const findUserByEmail = (email) => {
+    const users = getUsers();
+    return users.find(u => u.email === email);
 };

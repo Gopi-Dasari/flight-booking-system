@@ -1,0 +1,298 @@
+.booking-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: var(--spacing-xl);
+}
+
+.booking-progress {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--spacing-2xl);
+    position: relative;
+}
+
+.booking-progress::before {
+    content: '';
+    position: absolute;
+    top: 20px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--gray-200);
+    z-index: 0;
+}
+
+.booking-progress .step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-xs);
+    z-index: 1;
+    flex: 1;
+}
+
+.booking-progress .step-number {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--gray-200);
+    color: var(--gray-600);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    transition: all var(--transition-base);
+}
+
+.booking-progress .step.active .step-number {
+    background: var(--primary);
+    color: var(--white);
+}
+
+.booking-progress .step.completed .step-number {
+    background: var(--success);
+    color: var(--white);
+}
+
+.booking-progress .step-label {
+    font-size: var(--font-size-xs);
+    color: var(--gray-500);
+    font-weight: 500;
+    text-align: center;
+}
+
+.booking-progress .step.active .step-label {
+    color: var(--primary);
+    font-weight: 600;
+}
+
+.booking-content {
+    background: var(--white);
+    border-radius: var(--border-radius-xl);
+    padding: var(--spacing-2xl);
+    box-shadow: var(--shadow-lg);
+    animation: fadeInUp 0.5s ease;
+}
+
+.booking-content .flight-summary {
+    background: var(--gray-100);
+    border-radius: var(--border-radius-lg);
+    padding: var(--spacing-lg);
+    margin-bottom: var(--spacing-xl);
+}
+
+.booking-content .flight-summary .route {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--spacing-md);
+    flex-wrap: wrap;
+}
+
+.booking-content .flight-summary .route .airport {
+    text-align: center;
+}
+
+.booking-content .flight-summary .route .airport .code {
+    font-weight: 700;
+    font-size: var(--font-size-xl);
+    color: var(--primary);
+}
+
+.booking-content .flight-summary .route .airport .city {
+    font-size: var(--font-size-sm);
+    color: var(--gray-600);
+}
+
+.booking-content .flight-summary .route .arrow {
+    color: var(--gray-400);
+    font-size: var(--font-size-2xl);
+}
+
+.booking-content .passenger-form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-lg);
+}
+
+.booking-content .passenger-form .form-group {
+    margin-bottom: 0;
+}
+
+.booking-content .passenger-form .form-group label {
+    display: block;
+    font-weight: 600;
+    font-size: var(--font-size-sm);
+    color: var(--gray-700);
+    margin-bottom: var(--spacing-xs);
+}
+
+.booking-content .passenger-form .form-group input,
+.booking-content .passenger-form .form-group select {
+    width: 100%;
+    padding: var(--spacing-md);
+    border: 2px solid var(--gray-200);
+    border-radius: var(--border-radius-md);
+    font-size: var(--font-size-base);
+    transition: all var(--transition-fast);
+    background: var(--gray-100);
+    outline: none;
+}
+
+.booking-content .passenger-form .form-group input:focus,
+.booking-content .passenger-form .form-group select:focus {
+    border-color: var(--primary);
+    background: var(--white);
+    box-shadow: 0 0 0 4px rgba(26, 58, 107, 0.1);
+}
+
+.booking-content .passenger-form .form-group input.error {
+    border-color: #dc3545;
+}
+
+.booking-content .passenger-form .form-group .error-message {
+    display: none;
+    color: #dc3545;
+    font-size: var(--font-size-xs);
+    margin-top: var(--spacing-xs);
+}
+
+.booking-content .passenger-form .form-group .error-message.visible {
+    display: block;
+}
+
+.booking-content .booking-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: var(--spacing-xl);
+    padding-top: var(--spacing-xl);
+    border-top: 1px solid var(--gray-200);
+}
+
+.booking-content .booking-actions .btn {
+    min-width: 140px;
+    justify-content: center;
+}
+
+.seat-map {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: var(--spacing-sm);
+    max-width: 500px;
+    margin: 0 auto var(--spacing-xl);
+}
+
+.seat-map .seat {
+    padding: var(--spacing-md) 0;
+    text-align: center;
+    border-radius: var(--border-radius-md);
+    font-weight: 600;
+    font-size: var(--font-size-sm);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    background: var(--gray-100);
+    border: 2px solid var(--gray-200);
+}
+
+.seat-map .seat:hover:not(.booked):not(.unavailable) {
+    transform: scale(1.05);
+    box-shadow: var(--shadow-md);
+}
+
+.seat-map .seat.available {
+    background: var(--white);
+    border-color: var(--success);
+    color: var(--success);
+}
+
+.seat-map .seat.available:hover {
+    background: var(--success);
+    color: var(--white);
+}
+
+.seat-map .seat.selected {
+    background: var(--primary);
+    border-color: var(--primary);
+    color: var(--white);
+}
+
+.seat-map .seat.booked {
+    background: var(--gray-300);
+    border-color: var(--gray-400);
+    color: var(--gray-500);
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+.seat-legend {
+    display: flex;
+    justify-content: center;
+    gap: var(--spacing-xl);
+    margin-bottom: var(--spacing-xl);
+    flex-wrap: wrap;
+}
+
+.seat-legend .legend-item {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    font-size: var(--font-size-sm);
+}
+
+.seat-legend .legend-item .color-box {
+    width: 20px;
+    height: 20px;
+    border-radius: var(--border-radius-sm);
+    border: 1px solid var(--gray-300);
+}
+
+.seat-legend .legend-item .color-box.available {
+    background: var(--success);
+}
+
+.seat-legend .legend-item .color-box.selected {
+    background: var(--primary);
+}
+
+.seat-legend .legend-item .color-box.booked {
+    background: var(--gray-400);
+}
+
+@media (max-width: 768px) {
+    .booking-container {
+        padding: var(--spacing-md);
+    }
+
+    .booking-content {
+        padding: var(--spacing-lg);
+    }
+
+    .booking-content .passenger-form {
+        grid-template-columns: 1fr;
+    }
+
+    .booking-progress .step-label {
+        font-size: 8px;
+    }
+
+    .booking-progress .step-number {
+        width: 32px;
+        height: 32px;
+        font-size: var(--font-size-sm);
+    }
+
+    .booking-content .booking-actions {
+        flex-direction: column;
+        gap: var(--spacing-md);
+    }
+
+    .booking-content .booking-actions .btn {
+        width: 100%;
+    }
+
+    .seat-map {
+        grid-template-columns: repeat(3, 1fr);
+        max-width: 100%;
+    }
+}

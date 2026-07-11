@@ -1,17 +1,23 @@
-// Header Module - Handles navigation, authentication UI, and mobile menu
+import { getInitials } from '../utils/helpers.js';
 
 class HeaderModule {
     constructor() {
         this.isLoggedIn = false;
         this.currentUser = null;
-        this.init();
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', () => this.init());
+        } else {
+            this.init();
+        }
     }
 
     init() {
-        this.cacheElements();
-        this.bindEvents();
-        this.checkAuthStatus();
-        this.handleScroll();
+        setTimeout(() => {
+            this.cacheElements();
+            this.bindEvents();
+            this.checkAuthStatus();
+            this.handleScroll();
+        }, 100);
     }
 
     cacheElements() {
@@ -36,24 +42,31 @@ class HeaderModule {
     }
 
     bindEvents() {
-        // Hamburger menu toggle
-        this.elements.hamburger.addEventListener('click', () => this.toggleMobileMenu());
+        if (this.elements.hamburger) {
+            this.elements.hamburger.addEventListener('click', () => this.toggleMobileMenu());
+        }
 
-        // Login buttons
-        this.elements.loginBtn.addEventListener('click', () => this.openModal('login'));
-        this.elements.mobileLoginBtn.addEventListener('click', () => this.openModal('login'));
+        if (this.elements.loginBtn) {
+            this.elements.loginBtn.addEventListener('click', () => this.openModal('login'));
+        }
+        if (this.elements.mobileLoginBtn) {
+            this.elements.mobileLoginBtn.addEventListener('click', () => this.openModal('login'));
+        }
 
-        // Signup buttons
-        this.elements.signupBtn.addEventListener('click', () => this.openModal('signup'));
-        this.elements.mobileSignupBtn.addEventListener('click', () => this.openModal('signup'));
+        if (this.elements.signupBtn) {
+            this.elements.signupBtn.addEventListener('click', () => this.openModal('signup'));
+        }
+        if (this.elements.mobileSignupBtn) {
+            this.elements.mobileSignupBtn.addEventListener('click', () => this.openModal('signup'));
+        }
 
-        // Logout
-        this.elements.logoutBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            this.logout();
-        });
+        if (this.elements.logoutBtn) {
+            this.elements.logoutBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                this.logout();
+            });
+        }
 
-        // Navigation links
         this.elements.navLinks.forEach(link => {
             link.addEventListener('click', (e) => {
                 e.preventDefault();
@@ -62,29 +75,28 @@ class HeaderModule {
             });
         });
 
-        // User profile dropdown toggle
-        this.elements.userProfile.addEventListener('click', (e) => {
-            e.stopPropagation();
-            this.toggleDropdown();
-        });
+        if (this.elements.userProfile) {
+            this.elements.userProfile.addEventListener('click', (e) => {
+                e.stopPropagation();
+                this.toggleDropdown();
+            });
+        }
 
-        // Close dropdown when clicking outside
         document.addEventListener('click', (e) => {
-            if (!this.elements.userProfile.contains(e.target)) {
+            if (this.elements.userProfile && !this.elements.userProfile.contains(e.target)) {
                 this.closeDropdown();
             }
         });
 
-        // Logo click
-        this.elements.logo.addEventListener('click', (e) => {
-            e.preventDefault();
-            this.navigateTo('search');
-        });
+        if (this.elements.logo) {
+            this.elements.logo.addEventListener('click', (e) => {
+                e.preventDefault();
+                this.navigateTo('search');
+            });
+        }
 
-        // Scroll event
         window.addEventListener('scroll', () => this.handleScroll());
 
-        // Close mobile menu on resize to desktop
         window.addEventListener('resize', () => {
             if (window.innerWidth > 768) {
                 this.closeMobileMenu();
@@ -93,31 +105,38 @@ class HeaderModule {
     }
 
     toggleMobileMenu() {
-        this.elements.navMenu.classList.toggle('active');
-        const icon = this.elements.hamburger.querySelector('i');
-        if (this.elements.navMenu.classList.contains('active')) {
-            icon.className = 'fas fa-times';
-        } else {
-            icon.className = 'fas fa-bars';
+        if (this.elements.navMenu) {
+            this.elements.navMenu.classList.toggle('active');
+            const icon = this.elements.hamburger.querySelector('i');
+            if (this.elements.navMenu.classList.contains('active')) {
+                icon.className = 'fas fa-times';
+            } else {
+                icon.className = 'fas fa-bars';
+            }
         }
     }
 
     closeMobileMenu() {
-        this.elements.navMenu.classList.remove('active');
-        const icon = this.elements.hamburger.querySelector('i');
-        icon.className = 'fas fa-bars';
+        if (this.elements.navMenu) {
+            this.elements.navMenu.classList.remove('active');
+            const icon = this.elements.hamburger.querySelector('i');
+            icon.className = 'fas fa-bars';
+        }
     }
 
     toggleDropdown() {
-        this.elements.dropdownMenu.classList.toggle('active');
+        if (this.elements.dropdownMenu) {
+            this.elements.dropdownMenu.classList.toggle('active');
+        }
     }
 
     closeDropdown() {
-        this.elements.dropdownMenu.classList.remove('active');
+        if (this.elements.dropdownMenu) {
+            this.elements.dropdownMenu.classList.remove('active');
+        }
     }
 
     navigateTo(page) {
-        // Update active link
         this.elements.navLinks.forEach(link => {
             link.classList.remove('active');
             if (link.dataset.page === page) {
@@ -125,37 +144,16 @@ class HeaderModule {
             }
         });
 
-        // Show/hide sections
-        const sections = document.querySelectorAll('.page-section');
-        sections.forEach(section => {
-            section.classList.remove('active');
-            if (section.dataset.page === page) {
-                section.classList.add('active');
-            }
-        });
+        if (window.navigateToPage) {
+            window.navigateToPage(page);
+        }
 
-        // Close mobile menu
         this.closeMobileMenu();
-
-        // Dispatch custom event
-        window.dispatchEvent(new CustomEvent('pageChange', { 
-            detail: { page } 
-        }));
     }
 
     openModal(type) {
-        const modal = document.getElementById(`${type}Modal`);
-        if (modal) {
-            modal.classList.remove('hidden');
-            document.body.style.overflow = 'hidden';
-        }
-    }
-
-    closeModal(type) {
-        const modal = document.getElementById(`${type}Modal`);
-        if (modal) {
-            modal.classList.add('hidden');
-            document.body.style.overflow = '';
+        if (window.authModule) {
+            window.authModule.openModal(type);
         }
     }
 
@@ -186,7 +184,7 @@ class HeaderModule {
         if (this.elements.userProfile) {
             this.elements.userProfile.classList.remove('hidden');
             this.elements.userAvatar.textContent = this.currentUser?.name 
-                ? this.getInitials(this.currentUser.name) 
+                ? getInitials(this.currentUser.name) 
                 : 'U';
             this.elements.userName.textContent = this.currentUser?.name || 'User';
         }
@@ -210,8 +208,6 @@ class HeaderModule {
         this.isLoggedIn = false;
         this.currentUser = null;
         this.updateUIForLoggedOut();
-        
-        // Show notification
         this.showNotification('Logged out successfully', 'success');
     }
 
@@ -220,32 +216,22 @@ class HeaderModule {
         this.currentUser = userData;
         this.isLoggedIn = true;
         this.updateUIForLoggedIn();
-        this.closeModal('login');
         this.showNotification(`Welcome back, ${userData.name}!`, 'success');
     }
 
-    getInitials(name) {
-        return name
-            .split(' ')
-            .map(word => word.charAt(0))
-            .join('')
-            .toUpperCase()
-            .slice(0, 2);
-    }
-
     handleScroll() {
-        if (window.scrollY > 50) {
-            this.elements.header.classList.add('scrolled');
-        } else {
-            this.elements.header.classList.remove('scrolled');
+        if (this.elements.header) {
+            if (window.scrollY > 50) {
+                this.elements.header.classList.add('scrolled');
+            } else {
+                this.elements.header.classList.remove('scrolled');
+            }
         }
     }
 
     showNotification(message, type = 'info') {
         const existing = document.querySelector('.notification');
-        if (existing) {
-            existing.remove();
-        }
+        if (existing) existing.remove();
 
         const notification = document.createElement('div');
         notification.className = `notification notification-${type}`;
@@ -278,13 +264,11 @@ class HeaderModule {
 
         document.body.appendChild(notification);
 
-        // Auto-close after 4 seconds
         setTimeout(() => {
             notification.style.animation = 'slideOutRight 0.3s ease forwards';
             setTimeout(() => notification.remove(), 300);
         }, 4000);
 
-        // Click to close
         notification.querySelector('.notification-close').addEventListener('click', () => {
             notification.style.animation = 'slideOutRight 0.3s ease forwards';
             setTimeout(() => notification.remove(), 300);
@@ -292,33 +276,19 @@ class HeaderModule {
     }
 }
 
-// Initialize header
 document.addEventListener('DOMContentLoaded', () => {
     window.headerModule = new HeaderModule();
 });
 
-// Add animation styles for notifications
 const style = document.createElement('style');
 style.textContent = `
     @keyframes slideInRight {
-        from {
-            transform: translateX(100%);
-            opacity: 0;
-        }
-        to {
-            transform: translateX(0);
-            opacity: 1;
-        }
+        from { transform: translateX(100%); opacity: 0; }
+        to { transform: translateX(0); opacity: 1; }
     }
     @keyframes slideOutRight {
-        from {
-            transform: translateX(0);
-            opacity: 1;
-        }
-        to {
-            transform: translateX(100%);
-            opacity: 0;
-        }
+        from { transform: translateX(0); opacity: 1; }
+        to { transform: translateX(100%); opacity: 0; }
     }
     .notification {
         animation: slideInRight 0.3s ease;

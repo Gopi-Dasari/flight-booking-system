@@ -1,4 +1,3 @@
-  /* Modal Styles */
 .modal {
     position: fixed;
     top: 0;
@@ -7,13 +6,12 @@
     height: 100%;
     background: rgba(0, 0, 0, 0.6);
     backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: var(--z-modal, 300);
+    z-index: var(--z-modal);
     animation: fadeIn 0.3s ease;
-    padding: var(--spacing-md, 1rem);
+    padding: var(--spacing-md);
 }
 
 .modal.hidden {
@@ -22,8 +20,8 @@
 
 .modal-content {
     background: var(--white);
-    border-radius: var(--border-radius-xl, 1.5rem);
-    padding: var(--spacing-2xl, 2rem);
+    border-radius: var(--border-radius-xl);
+    padding: var(--spacing-2xl);
     max-width: 450px;
     width: 100%;
     position: relative;
@@ -35,12 +33,13 @@
 
 .close-modal {
     position: absolute;
-    top: var(--spacing-md, 1rem);
-    right: var(--spacing-md, 1rem);
-    font-size: var(--font-size-2xl, 1.5rem);
+    top: var(--spacing-md);
+    right: var(--spacing-md);
+    font-size: var(--font-size-2xl);
     color: var(--gray-500);
     cursor: pointer;
-    transition: all var(--transition-fast);
+    background: none;
+    border: none;
     width: 36px;
     height: 36px;
     display: flex;
@@ -48,7 +47,7 @@
     justify-content: center;
     border-radius: 50%;
     background: var(--gray-100);
-    border: none;
+    transition: all var(--transition-fast);
 }
 
 .close-modal:hover {
@@ -59,29 +58,28 @@
 
 .modal-header {
     text-align: center;
-    margin-bottom: var(--spacing-xl, 2rem);
+    margin-bottom: var(--spacing-xl);
 }
 
 .modal-header i {
     display: block;
-    margin-bottom: var(--spacing-sm, 0.5rem);
+    margin-bottom: var(--spacing-sm);
 }
 
 .modal-header h2 {
-    font-size: var(--font-size-2xl, 1.5rem);
+    font-size: var(--font-size-2xl);
     font-weight: 700;
     color: var(--primary);
-    margin-bottom: var(--spacing-xs, 0.25rem);
+    margin-bottom: var(--spacing-xs);
 }
 
 .modal-header p {
     color: var(--gray-600);
-    font-size: var(--font-size-sm, 0.875rem);
+    font-size: var(--font-size-sm);
 }
 
-/* Form Styles */
 .modal-form .form-group {
-    margin-bottom: var(--spacing-lg, 1.5rem);
+    margin-bottom: var(--spacing-lg);
 }
 
 .modal-form label {
@@ -89,26 +87,28 @@
     align-items: center;
     gap: 8px;
     font-weight: 600;
-    font-size: var(--font-size-sm, 0.875rem);
+    font-size: var(--font-size-sm);
     color: var(--gray-700);
-    margin-bottom: var(--spacing-xs, 0.25rem);
+    margin-bottom: var(--spacing-xs);
 }
 
 .modal-form label i {
     color: var(--gray-500);
-    font-size: var(--font-size-sm, 0.875rem);
+    font-size: var(--font-size-sm);
 }
 
 .modal-form input[type="text"],
 .modal-form input[type="email"],
-.modal-form input[type="password"] {
+.modal-form input[type="password"],
+.modal-form input[type="date"] {
     width: 100%;
-    padding: var(--spacing-md, 1rem);
+    padding: var(--spacing-md);
     border: 2px solid var(--gray-200);
-    border-radius: var(--border-radius-md, 0.5rem);
-    font-size: var(--font-size-base, 1rem);
+    border-radius: var(--border-radius-md);
+    font-size: var(--font-size-base);
     transition: all var(--transition-fast);
     background: var(--gray-100);
+    outline: none;
 }
 
 .modal-form input:focus {
@@ -139,7 +139,7 @@
     color: var(--gray-500);
     cursor: pointer;
     padding: 8px;
-    font-size: var(--font-size-base, 1rem);
+    font-size: var(--font-size-base);
 }
 
 .toggle-password:hover {
@@ -149,8 +149,8 @@
 .error-message {
     display: none;
     color: #dc3545;
-    font-size: var(--font-size-xs, 0.75rem);
-    margin-top: var(--spacing-xs, 0.25rem);
+    font-size: var(--font-size-xs);
+    margin-top: var(--spacing-xs);
 }
 
 .error-message.visible {
@@ -160,15 +160,15 @@
 .password-hint {
     display: block;
     color: var(--gray-500);
-    font-size: var(--font-size-xs, 0.75rem);
-    margin-top: var(--spacing-xs, 0.25rem);
+    font-size: var(--font-size-xs);
+    margin-top: var(--spacing-xs);
 }
 
 .form-options {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: var(--spacing-lg, 1.5rem);
+    margin-bottom: var(--spacing-lg);
 }
 
 .remember-me {
@@ -176,7 +176,7 @@
     align-items: center;
     gap: 8px;
     cursor: pointer;
-    font-size: var(--font-size-sm, 0.875rem);
+    font-size: var(--font-size-sm);
     color: var(--gray-600);
 }
 
@@ -187,7 +187,7 @@
 }
 
 .forgot-password {
-    font-size: var(--font-size-sm, 0.875rem);
+    font-size: var(--font-size-sm);
     color: var(--primary);
     text-decoration: none;
 }
@@ -198,25 +198,21 @@
 
 .btn-full {
     width: 100%;
-    padding: var(--spacing-md, 1rem);
-    font-size: var(--font-size-base, 1rem);
-    border-radius: var(--border-radius-md, 0.5rem);
+    padding: var(--spacing-md);
+    font-size: var(--font-size-base);
+    border-radius: var(--border-radius-md);
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 10px;
 }
 
-.btn-full i {
-    font-size: var(--font-size-base, 1rem);
-}
-
 .form-footer {
     text-align: center;
-    margin-top: var(--spacing-lg, 1.5rem);
-    padding-top: var(--spacing-lg, 1.5rem);
+    margin-top: var(--spacing-lg);
+    padding-top: var(--spacing-lg);
     border-top: 1px solid var(--gray-200);
-    font-size: var(--font-size-sm, 0.875rem);
+    font-size: var(--font-size-sm);
     color: var(--gray-600);
 }
 
@@ -225,6 +221,7 @@
     font-weight: 600;
     text-decoration: none;
     margin-left: 4px;
+    cursor: pointer;
 }
 
 .form-footer a:hover {
@@ -237,7 +234,7 @@
     gap: 10px;
     cursor: pointer;
     font-weight: 400;
-    font-size: var(--font-size-sm, 0.875rem);
+    font-size: var(--font-size-sm);
     color: var(--gray-600);
 }
 
@@ -258,42 +255,20 @@
     text-decoration: underline;
 }
 
-/* Modal Responsive */
 @media (max-width: 480px) {
     .modal-content {
-        padding: var(--spacing-lg, 1.5rem);
-        margin: var(--spacing-md, 1rem);
+        padding: var(--spacing-lg);
+        margin: var(--spacing-md);
         max-height: 95vh;
     }
 
     .modal-header h2 {
-        font-size: var(--font-size-xl, 1.25rem);
+        font-size: var(--font-size-xl);
     }
 
     .form-options {
         flex-direction: column;
-        gap: var(--spacing-sm, 0.5rem);
+        gap: var(--spacing-sm);
         align-items: flex-start;
-    }
-}
-
-/* Animation Keyframes for Modals */
-@keyframes scaleIn {
-    from {
-        opacity: 0;
-        transform: scale(0.9);
-    }
-    to {
-        opacity: 1;
-        transform: scale(1);
-    }
-}
-
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
     }
 }

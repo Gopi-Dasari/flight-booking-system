@@ -1,0 +1,55 @@
+@media (min-width: 769px) {
+    .container {
+        padding: 0 var(--spacing-xl);
+    }
+
+    .flight-card:hover {
+        transform: translateY(-4px);
+        box-shadow: var(--shadow-xl);
+    }
+
+    .dest-card:hover {
+        transform: translateY(-6px) scale(1.02);
+    }
+
+    .search-row {
+        grid-template-columns: 1fr 1fr 1fr 1fr auto;
+    }
+
+    #main-header.scrolled {
+        box-shadow: var(--shadow-lg);
+    }
+
+    .page-section {
+        animation-duration: 0.4s;
+    }
+
+    .btn-primary:hover,
+    .btn-accent:hover,
+    .btn-secondary:hover {
+        transform: translateY(-2px);
+    }
+
+    .modal-content {
+        animation: scaleIn 0.3s ease;
+    }
+
+    .dropdown-menu {
+        animation: fadeIn 0.15s ease;
+    }
+
+    .notification {
+        top: 90px;
+        right: 30px;
+    }
+
+    .seat-map .seat {
+        padding: var(--spacing-lg) 0;
+        font-size: var(--font-size-base);
+        transition: all var(--transition-fast);
+    }
+
+    .seat-map .seat:hover:not(.booked):not(.unavailable) {
+        transform: scale(1.08);
+    }
+}

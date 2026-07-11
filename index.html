@@ -5,57 +5,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>✈️ SkyTicket - Book Your Flight</title>
     
-    <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-    
-    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
     
-    <!-- CSS Files -->
     <link rel="stylesheet" href="css/main.css" />
     <link rel="stylesheet" href="css/utils/variables.css" />
     <link rel="stylesheet" href="css/utils/mixins.css" />
     <link rel="stylesheet" href="css/utils/animations.css" />
     <link rel="stylesheet" href="css/components/header.css" />
     <link rel="stylesheet" href="css/components/footer.css" />
+    <link rel="stylesheet" href="css/components/modal.css" />
+    <link rel="stylesheet" href="css/components/flight-card.css" />
     <link rel="stylesheet" href="css/pages/search.css" />
+    <link rel="stylesheet" href="css/pages/results.css" />
+    <link rel="stylesheet" href="css/pages/booking.css" />
     <link rel="stylesheet" href="css/responsive/mobile.css" />
     <link rel="stylesheet" href="css/responsive/tablet.css" />
     <link rel="stylesheet" href="css/responsive/desktop.css" />
 </head>
 <body>
     <div id="app">
-        <!-- Header -->
-        <header id="main-header">
-            <div class="header-container">
-                <div class="logo">
-                    <i class="fas fa-plane-departure"></i>
-                    <span>SkyTicket</span>
-                </div>
-                
-                <nav class="nav-menu">
-                    <ul>
-                        <li><a href="#" class="active"><i class="fas fa-search"></i> Search</a></li>
-                        <li><a href="#"><i class="fas fa-calendar-check"></i> My Bookings</a></li>
-                        <li><a href="#"><i class="fas fa-user"></i> Profile</a></li>
-                    </ul>
-                </nav>
-                
-                <div class="auth-buttons">
-                    <button class="btn-login" id="loginBtn"><i class="fas fa-sign-in-alt"></i> Login</button>
-                    <button class="btn-signup" id="signupBtn"><i class="fas fa-user-plus"></i> Sign Up</button>
-                </div>
-                
-                <button class="hamburger" id="hamburgerBtn">
-                    <i class="fas fa-bars"></i>
-                </button>
-            </div>
-        </header>
+        <div id="header-container"></div>
         
-        <!-- Main Content -->
         <main id="main-content">
-            <!-- Search Section -->
-            <section id="search-section" class="active-page">
+            <section id="search-section" class="page-section active" data-page="search">
                 <div class="search-container">
                     <div class="search-hero">
                         <h1>Find Your Perfect Flight</h1>
@@ -67,19 +40,16 @@
                             <div class="search-row">
                                 <div class="form-group">
                                     <label><i class="fas fa-map-pin"></i> From</label>
-                                    <input type="text" id="fromInput" placeholder="City or Airport" value="New York" />
+                                    <input type="text" id="fromInput" placeholder="City or Airport" />
                                 </div>
-                                
                                 <div class="form-group">
                                     <label><i class="fas fa-map-pin"></i> To</label>
-                                    <input type="text" id="toInput" placeholder="City or Airport" value="London" />
+                                    <input type="text" id="toInput" placeholder="City or Airport" />
                                 </div>
-                                
                                 <div class="form-group">
                                     <label><i class="fas fa-calendar-alt"></i> Departure</label>
-                                    <input type="date" id="departureDate" value="2026-07-15" />
+                                    <input type="date" id="departureDate" />
                                 </div>
-                                
                                 <div class="form-group">
                                     <label><i class="fas fa-users"></i> Passengers</label>
                                     <select id="passengerCount">
@@ -90,105 +60,102 @@
                                         <option value="5">5 Adults</option>
                                     </select>
                                 </div>
-                                
                                 <button type="submit" class="btn-search">
                                     <i class="fas fa-search"></i> Search Flights
                                 </button>
                             </div>
                         </form>
                     </div>
+                    
+                    <div class="quick-destinations">
+                        <h3>Popular Routes</h3>
+                        <div class="destination-grid">
+                            <div class="dest-card" data-from="New York" data-to="London">
+                                <i class="fas fa-plane"></i>
+                                <span>NYC → LON</span>
+                                <small>From $299</small>
+                            </div>
+                            <div class="dest-card" data-from="Los Angeles" data-to="Tokyo">
+                                <i class="fas fa-plane"></i>
+                                <span>LAX → TYO</span>
+                                <small>From $499</small>
+                            </div>
+                            <div class="dest-card" data-from="Chicago" data-to="Paris">
+                                <i class="fas fa-plane"></i>
+                                <span>CHI → PAR</span>
+                                <small>From $399</small>
+                            </div>
+                            <div class="dest-card" data-from="Miami" data-to="Dubai">
+                                <i class="fas fa-plane"></i>
+                                <span>MIA → DXB</span>
+                                <small>From $599</small>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </section>
             
-            <!-- Results Section -->
-            <section id="results-section" class="hidden-page">
+            <section id="results-section" class="page-section" data-page="results">
                 <div class="results-container">
                     <div class="results-header">
-                        <h2>Available Flights</h2>
-                        <div class="results-filters">
+                        <div>
+                            <h2>Available Flights</h2>
+                            <p id="resultsInfo">Showing flights</p>
+                        </div>
+                        <div class="results-controls">
                             <select id="sortFilter">
-                                <option value="price-low">Price: Low to High</option>
-                                <option value="price-high">Price: High to Low</option>
+                                <option value="price">Price: Low to High</option>
+                                <option value="price-desc">Price: High to Low</option>
                                 <option value="departure">Departure Time</option>
                                 <option value="duration">Duration</option>
                             </select>
                         </div>
                     </div>
-                    <div id="flightResults" class="flight-results">
-                        <!-- Flight cards will be rendered here by JavaScript -->
-                    </div>
+                    <div id="flightResults" class="flight-results"></div>
                 </div>
             </section>
             
-            <!-- Booking Section -->
-            <section id="booking-section" class="hidden-page">
+            <section id="booking-section" class="page-section" data-page="booking">
                 <div class="booking-container">
-                    <h2>Complete Your Booking</h2>
-                    <div id="bookingContent">
-                        <!-- Booking content rendered by JavaScript -->
+                    <div class="booking-progress">
+                        <div class="step active"><span class="step-number">1</span><span class="step-label">Select Flight</span></div>
+                        <div class="step"><span class="step-number">2</span><span class="step-label">Passenger Details</span></div>
+                        <div class="step"><span class="step-number">3</span><span class="step-label">Payment</span></div>
+                        <div class="step"><span class="step-number">4</span><span class="step-label">Confirmation</span></div>
+                    </div>
+                    <div id="bookingContent"></div>
+                </div>
+            </section>
+            
+            <section id="my-bookings-section" class="page-section" data-page="my-bookings">
+                <div class="bookings-container">
+                    <h2>My Bookings</h2>
+                    <div id="bookingsList">
+                        <p style="text-align: center; color: var(--gray-600); padding: 3rem;">
+                            <i class="fas fa-calendar-check" style="font-size: 2rem; display: block; margin-bottom: 1rem;"></i>
+                            You have no bookings yet
+                        </p>
                     </div>
                 </div>
             </section>
         </main>
         
-        <!-- Footer -->
-        <footer id="main-footer">
-            <div class="footer-container">
-                <div class="footer-content">
-                    <div class="footer-section">
-                        <h4><i class="fas fa-plane"></i> SkyTicket</h4>
-                        <p>Book flights with confidence</p>
-                    </div>
-                    <div class="footer-section">
-                        <h5>Quick Links</h5>
-                        <ul>
-                            <li><a href="#">About Us</a></li>
-                            <li><a href="#">Contact</a></li>
-                            <li><a href="#">Privacy Policy</a></li>
-                        </ul>
-                    </div>
-                    <div class="footer-section">
-                        <h5>Follow Us</h5>
-                        <div class="social-links">
-                            <a href="#"><i class="fab fa-facebook"></i></a>
-                            <a href="#"><i class="fab fa-twitter"></i></a>
-                            <a href="#"><i class="fab fa-instagram"></i></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="footer-bottom">
-                    <p>&copy; 2026 SkyTicket. All rights reserved.</p>
-                </div>
-            </div>
-        </footer>
+        <div id="footer-container"></div>
+        <div id="modal-container"></div>
     </div>
     
-    <!-- Login Modal -->
-    <div id="loginModal" class="modal hidden">
-        <div class="modal-content">
-            <span class="close-modal">&times;</span>
-            <h2>Login to SkyTicket</h2>
-            <form id="loginForm">
-                <div class="form-group">
-                    <label>Email</label>
-                    <input type="email" placeholder="Enter your email" required />
-                </div>
-                <div class="form-group">
-                    <label>Password</label>
-                    <input type="password" placeholder="Enter your password" required />
-                </div>
-                <button type="submit" class="btn-primary">Login</button>
-            </form>
-        </div>
-    </div>
-    
-    <!-- JavaScript Files -->
     <script src="js/utils/constants.js"></script>
     <script src="js/utils/helpers.js"></script>
-    <script src="js/services/mock-data.js"></script>
+    <script src="js/utils/date-utils.js"></script>
     <script src="js/services/storage.js"></script>
+    <script src="js/services/mock-data.js"></script>
     <script src="js/store.js"></script>
-    <script src="js/modules/search/search.js"></script>
+    <script src="js/modules/header.js"></script>
+    <script src="js/modules/auth.js"></script>
+    <script src="js/modules/search.js"></script>
+    <script src="js/modules/flights.js"></script>
+    <script src="js/modules/booking.js"></script>
+    <script src="js/modules/payment.js"></script>
     <script src="js/app.js"></script>
 </body>
 </html>

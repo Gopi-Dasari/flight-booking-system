@@ -1,5 +1,3 @@
-// Application Constants
-
 export const APP_CONFIG = {
     APP_NAME: 'SkyTicket',
     VERSION: '1.0.0',
@@ -10,7 +8,6 @@ export const ROUTES = {
     SEARCH: 'search',
     RESULTS: 'results',
     BOOKING: 'booking',
-    PAYMENT: 'payment',
     CONFIRMATION: 'confirmation',
     MY_BOOKINGS: 'my-bookings',
 };
@@ -44,3 +41,12 @@ export const PAYMENT_METHODS = {
 export const CURRENCY = 'USD';
 export const DATE_FORMAT = 'YYYY-MM-DD';
 export const TIME_FORMAT = 'HH:mm';
+
+export const STORAGE_KEYS = {
+    BOOKINGS: 'skyTicket_bookings',
+    USER: 'skyTicket_user',
+    USERS: 'skyTicket_users',
+    SEARCH_HISTORY: 'skyTicket_searchHistory',
+    SELECTED_FLIGHT: 'skyTicket_selectedFlight',
+    BOOKING_DATA: 'skyTicket_bookingData',
+};

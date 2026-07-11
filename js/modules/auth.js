@@ -1,21 +1,27 @@
-// Authentication Module - Handles login, signup, and session management
+import { isValidEmail } from '../utils/helpers.js';
 
 class AuthModule {
     constructor() {
-        this.loginModal = document.getElementById('loginModal');
-        this.signupModal = document.getElementById('signupModal');
-        this.init();
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', () => this.init());
+        } else {
+            this.init();
+        }
     }
 
     init() {
-        this.cacheElements();
-        this.bindEvents();
-        this.setupPasswordToggle();
+        setTimeout(() => {
+            this.cacheElements();
+            this.bindEvents();
+            this.setupPasswordToggle();
+        }, 150);
     }
 
     cacheElements() {
+        this.loginModal = document.getElementById('loginModal');
+        this.signupModal = document.getElementById('signupModal');
+        
         this.elements = {
-            // Login Modal
             loginForm: document.getElementById('loginForm'),
             loginEmail: document.getElementById('loginEmail'),
             loginPassword: document.getElementById('loginPassword'),
@@ -25,7 +31,6 @@ class AuthModule {
             closeLogin: document.getElementById('closeLoginModal'),
             switchToSignup: document.getElementById('switchToSignup'),
 
-            // Signup Modal
             signupForm: document.getElementById('signupForm'),
             signupName: document.getElementById('signupName'),
             signupEmail: document.getElementById('signupEmail'),
@@ -43,56 +48,70 @@ class AuthModule {
     }
 
     bindEvents() {
-        // Login form submit
-        this.elements.loginForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            this.handleLogin();
-        });
+        if (this.elements.loginForm) {
+            this.elements.loginForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                this.handleLogin();
+            });
+        }
 
-        // Signup form submit
-        this.elements.signupForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            this.handleSignup();
-        });
+        if (this.elements.signupForm) {
+            this.elements.signupForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                this.handleSignup();
+            });
+        }
 
-        // Close modals
-        this.elements.closeLogin.addEventListener('click', () => this.closeModal('login'));
-        this.elements.closeSignup.addEventListener('click', () => this.closeModal('signup'));
+        if (this.elements.closeLogin) {
+            this.elements.closeLogin.addEventListener('click', () => this.closeModal('login'));
+        }
+        if (this.elements.closeSignup) {
+            this.elements.closeSignup.addEventListener('click', () => this.closeModal('signup'));
+        }
 
-        // Switch between login and signup
-        this.elements.switchToSignup.addEventListener('click', (e) => {
-            e.preventDefault();
-            this.closeModal('login');
-            this.openModal('signup');
-        });
-
-        this.elements.switchToLogin.addEventListener('click', (e) => {
-            e.preventDefault();
-            this.closeModal('signup');
-            this.openModal('login');
-        });
-
-        // Close modals on overlay click
-        this.loginModal.addEventListener('click', (e) => {
-            if (e.target === this.loginModal) {
+        if (this.elements.switchToSignup) {
+            this.elements.switchToSignup.addEventListener('click', (e) => {
+                e.preventDefault();
                 this.closeModal('login');
-            }
-        });
+                this.openModal('signup');
+            });
+        }
 
-        this.signupModal.addEventListener('click', (e) => {
-            if (e.target === this.signupModal) {
+        if (this.elements.switchToLogin) {
+            this.elements.switchToLogin.addEventListener('click', (e) => {
+                e.preventDefault();
                 this.closeModal('signup');
-            }
-        });
+                this.openModal('login');
+            });
+        }
 
-        // Real-time validation
-        this.elements.loginEmail.addEventListener('blur', () => this.validateLoginEmail());
-        this.elements.loginPassword.addEventListener('blur', () => this.validateLoginPassword());
+        if (this.loginModal) {
+            this.loginModal.addEventListener('click', (e) => {
+                if (e.target === this.loginModal) {
+                    this.closeModal('login');
+                }
+            });
+        }
 
-        this.elements.signupName.addEventListener('blur', () => this.validateSignupName());
-        this.elements.signupEmail.addEventListener('blur', () => this.validateSignupEmail());
-        this.elements.signupPassword.addEventListener('blur', () => this.validateSignupPassword());
-        this.elements.signupConfirm.addEventListener('blur', () => this.validateSignupConfirm());
+        if (this.signupModal) {
+            this.signupModal.addEventListener('click', (e) => {
+                if (e.target === this.signupModal) {
+                    this.closeModal('signup');
+                }
+            });
+        }
+
+        if (this.elements.loginEmail) {
+            this.elements.loginEmail.addEventListener('blur', () => this.validateLoginEmail());
+            this.elements.loginPassword.addEventListener('blur', () => this.validateLoginPassword());
+        }
+
+        if (this.elements.signupName) {
+            this.elements.signupName.addEventListener('blur', () => this.validateSignupName());
+            this.elements.signupEmail.addEventListener('blur', () => this.validateSignupEmail());
+            this.elements.signupPassword.addEventListener('blur', () => this.validateSignupPassword());
+            this.elements.signupConfirm.addEventListener('blur', () => this.validateSignupConfirm());
+        }
     }
 
     setupPasswordToggle() {
@@ -110,30 +129,29 @@ class AuthModule {
     }
 
     openModal(type) {
-        if (type === 'login') {
+        if (type === 'login' && this.loginModal) {
             this.loginModal.classList.remove('hidden');
             document.body.style.overflow = 'hidden';
-            this.elements.loginEmail.focus();
-        } else if (type === 'signup') {
+            if (this.elements.loginEmail) this.elements.loginEmail.focus();
+        } else if (type === 'signup' && this.signupModal) {
             this.signupModal.classList.remove('hidden');
             document.body.style.overflow = 'hidden';
-            this.elements.signupName.focus();
+            if (this.elements.signupName) this.elements.signupName.focus();
         }
     }
 
     closeModal(type) {
-        if (type === 'login') {
+        if (type === 'login' && this.loginModal) {
             this.loginModal.classList.add('hidden');
-        } else if (type === 'signup') {
+        } else if (type === 'signup' && this.signupModal) {
             this.signupModal.classList.add('hidden');
         }
         document.body.style.overflow = '';
         
-        // Reset forms
-        if (type === 'login') {
+        if (type === 'login' && this.elements.loginForm) {
             this.elements.loginForm.reset();
             this.clearLoginErrors();
-        } else if (type === 'signup') {
+        } else if (type === 'signup' && this.elements.signupForm) {
             this.elements.signupForm.reset();
             this.clearSignupErrors();
         }
@@ -143,17 +161,14 @@ class AuthModule {
         const email = this.elements.loginEmail.value.trim();
         const password = this.elements.loginPassword.value;
 
-        // Validate
         if (!this.validateLoginEmail() || !this.validateLoginPassword()) {
             return;
         }
 
-        // Check if user exists in localStorage
         const users = JSON.parse(localStorage.getItem('skyTicket_users') || '[]');
         const user = users.find(u => u.email === email && u.password === password);
 
         if (user) {
-            // Login successful
             const userData = {
                 name: user.name,
                 email: user.email,
@@ -164,14 +179,12 @@ class AuthModule {
             if (window.headerModule) {
                 window.headerModule.login(userData);
             } else {
-                // Fallback: Store user
                 localStorage.setItem('skyTicket_user', JSON.stringify(userData));
                 window.location.reload();
             }
             
             this.closeModal('login');
         } else {
-            // Check if email exists
             const emailExists = users.some(u => u.email === email);
             if (!emailExists) {
                 this.showError(this.elements.loginEmailError, 'No account found with this email');
@@ -187,7 +200,6 @@ class AuthModule {
         const password = this.elements.signupPassword.value;
         const confirm = this.elements.signupConfirm.value;
 
-        // Validate all fields
         const isNameValid = this.validateSignupName();
         const isEmailValid = this.validateSignupEmail();
         const isPasswordValid = this.validateSignupPassword();
@@ -197,20 +209,17 @@ class AuthModule {
             return;
         }
 
-        // Check if terms are agreed
         if (!this.elements.agreeTerms.checked) {
             this.showError(this.elements.signupTermsError, 'You must agree to the terms');
             return;
         }
 
-        // Check if user already exists
         const users = JSON.parse(localStorage.getItem('skyTicket_users') || '[]');
         if (users.some(u => u.email === email)) {
             this.showError(this.elements.signupEmailError, 'This email is already registered');
             return;
         }
 
-        // Create user
         const newUser = {
             id: Date.now().toString(),
             name: name,
@@ -222,7 +231,6 @@ class AuthModule {
         users.push(newUser);
         localStorage.setItem('skyTicket_users', JSON.stringify(users));
 
-        // Auto-login
         const userData = {
             name: newUser.name,
             email: newUser.email,
@@ -238,17 +246,15 @@ class AuthModule {
         }
 
         this.closeModal('signup');
-        this.showToast('Account created successfully! Welcome aboard! 🎉', 'success');
     }
 
-    // Validation Methods
     validateLoginEmail() {
         const email = this.elements.loginEmail.value.trim();
         if (!email) {
             this.showError(this.elements.loginEmailError, 'Email is required');
             return false;
         }
-        if (!this.isValidEmail(email)) {
+        if (!isValidEmail(email)) {
             this.showError(this.elements.loginEmailError, 'Please enter a valid email');
             return false;
         }
@@ -290,7 +296,7 @@ class AuthModule {
             this.showError(this.elements.signupEmailError, 'Email is required');
             return false;
         }
-        if (!this.isValidEmail(email)) {
+        if (!isValidEmail(email)) {
             this.showError(this.elements.signupEmailError, 'Please enter a valid email');
             return false;
         }
@@ -327,22 +333,19 @@ class AuthModule {
         return true;
     }
 
-    // Utility Methods
-    isValidEmail(email) {
-        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-    }
-
     showError(element, message) {
+        if (!element) return;
         element.textContent = message;
         element.classList.add('visible');
-        const input = element.closest('.form-group').querySelector('input');
+        const input = element.closest('.form-group')?.querySelector('input');
         if (input) input.classList.add('error');
     }
 
     clearError(element) {
+        if (!element) return;
         element.textContent = '';
         element.classList.remove('visible');
-        const input = element.closest('.form-group').querySelector('input');
+        const input = element.closest('.form-group')?.querySelector('input');
         if (input) input.classList.remove('error');
     }
 
@@ -358,22 +361,10 @@ class AuthModule {
         this.clearError(this.elements.signupConfirmError);
         this.clearError(this.elements.signupTermsError);
     }
-
-    showToast(message, type = 'info') {
-        // Use header module's notification if available
-        if (window.headerModule) {
-            window.headerModule.showNotification(message, type);
-        } else {
-            alert(message);
-        }
-    }
 }
 
-// Initialize authentication
 document.addEventListener('DOMContentLoaded', () => {
     window.authModule = new AuthModule();
-
-    // Expose modal functions globally for header buttons
     window.openLoginModal = () => window.authModule.openModal('login');
     window.openSignupModal = () => window.authModule.openModal('signup');
 });

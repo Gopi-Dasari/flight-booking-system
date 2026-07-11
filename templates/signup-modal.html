@@ -1,7 +1,6 @@
-<!-- Signup Modal -->
 <div id="signupModal" class="modal hidden">
     <div class="modal-content">
-        <span class="close-modal" id="closeSignupModal">&times;</span>
+        <button class="close-modal" id="closeSignupModal">&times;</button>
         
         <div class="modal-header">
             <i class="fas fa-user-plus" style="font-size: 2rem; color: var(--secondary);"></i>
@@ -15,13 +14,7 @@
                     <i class="fas fa-user"></i>
                     Full Name
                 </label>
-                <input 
-                    type="text" 
-                    id="signupName" 
-                    placeholder="John Doe" 
-                    required
-                    autocomplete="name"
-                />
+                <input type="text" id="signupName" placeholder="John Doe" required autocomplete="name" />
                 <span class="error-message" id="signupNameError"></span>
             </div>
             
@@ -30,13 +23,7 @@
                     <i class="fas fa-envelope"></i>
                     Email Address
                 </label>
-                <input 
-                    type="email" 
-                    id="signupEmail" 
-                    placeholder="you@example.com" 
-                    required
-                    autocomplete="email"
-                />
+                <input type="email" id="signupEmail" placeholder="you@example.com" required autocomplete="email" />
                 <span class="error-message" id="signupEmailError"></span>
             </div>
             
@@ -46,14 +33,7 @@
                     Password
                 </label>
                 <div class="password-input-wrapper">
-                    <input 
-                        type="password" 
-                        id="signupPassword" 
-                        placeholder="••••••••" 
-                        required
-                        autocomplete="new-password"
-                        minlength="8"
-                    />
+                    <input type="password" id="signupPassword" placeholder="••••••••" required autocomplete="new-password" minlength="8" />
                     <button type="button" class="toggle-password" data-target="signupPassword">
                         <i class="fas fa-eye"></i>
                     </button>
@@ -68,13 +48,7 @@
                     Confirm Password
                 </label>
                 <div class="password-input-wrapper">
-                    <input 
-                        type="password" 
-                        id="signupConfirmPassword" 
-                        placeholder="••••••••" 
-                        required
-                        autocomplete="new-password"
-                    />
+                    <input type="password" id="signupConfirmPassword" placeholder="••••••••" required autocomplete="new-password" />
                     <button type="button" class="toggle-password" data-target="signupConfirmPassword">
                         <i class="fas fa-eye"></i>
                     </button>

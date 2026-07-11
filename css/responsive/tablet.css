@@ -1,0 +1,67 @@
+@media (min-width: 481px) and (max-width: 768px) {
+    h1 {
+        font-size: var(--font-size-3xl);
+    }
+
+    h2 {
+        font-size: var(--font-size-2xl);
+    }
+
+    .grid-4 {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .grid-3 {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .search-row {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .btn-search {
+        grid-column: span 2;
+    }
+
+    .destination-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .results-container {
+        padding: var(--spacing-md);
+    }
+
+    .results-header {
+        flex-wrap: wrap;
+    }
+
+    .flight-card .flight-info {
+        grid-template-columns: 1fr auto 1fr;
+    }
+
+    .booking-container {
+        padding: var(--spacing-md);
+    }
+
+    .booking-content {
+        padding: var(--spacing-lg);
+    }
+
+    .booking-content .passenger-form {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .seat-map {
+        grid-template-columns: repeat(4, 1fr);
+    }
+
+    .footer-content {
+        grid-template-columns: 1fr 1fr;
+        gap: var(--spacing-lg);
+    }
+
+    .modal-content {
+        padding: var(--spacing-lg);
+        margin: var(--spacing-md);
+    }
+}
