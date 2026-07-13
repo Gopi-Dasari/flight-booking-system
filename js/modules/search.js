@@ -1,4 +1,5 @@
-// Search Module
+// Search Module with Autocomplete
+
 class SearchModule {
     constructor() {
         this.init();
@@ -8,6 +9,7 @@ class SearchModule {
         this.cacheElements();
         this.bindEvents();
         this.setDefaultDates();
+        this.setupAutocomplete();
     }
 
     cacheElements() {
@@ -19,6 +21,8 @@ class SearchModule {
             passengerCount: document.getElementById('passengerCount'),
             resultsContainer: document.getElementById('flightResults'),
             resultsInfo: document.getElementById('resultsInfo'),
+            fromDropdown: document.getElementById('fromDropdown'),
+            toDropdown: document.getElementById('toDropdown'),
         };
     }
 
@@ -36,7 +40,97 @@ class SearchModule {
                 const to = card.dataset.to;
                 if (this.elements.fromInput) this.elements.fromInput.value = from;
                 if (this.elements.toInput) this.elements.toInput.value = to;
+                // Clear any selected city data
+                if (this.elements.fromInput) delete this.elements.fromInput.dataset.selectedCity;
+                if (this.elements.toInput) delete this.elements.toInput.dataset.selectedCity;
                 this.performSearch();
+            });
+        });
+    }
+
+    setupAutocomplete() {
+        // From input autocomplete
+        if (this.elements.fromInput) {
+            this.elements.fromInput.addEventListener('input', (e) => {
+                const query = e.target.value;
+                const dropdown = this.elements.fromDropdown;
+                this.showAutocompleteSuggestions(query, dropdown, this.elements.fromInput);
+            });
+
+            this.elements.fromInput.addEventListener('blur', () => {
+                setTimeout(() => {
+                    if (this.elements.fromDropdown) {
+                        this.elements.fromDropdown.classList.remove('active');
+                    }
+                }, 200);
+            });
+        }
+
+        // To input autocomplete
+        if (this.elements.toInput) {
+            this.elements.toInput.addEventListener('input', (e) => {
+                const query = e.target.value;
+                const dropdown = this.elements.toDropdown;
+                this.showAutocompleteSuggestions(query, dropdown, this.elements.toInput);
+            });
+
+            this.elements.toInput.addEventListener('blur', () => {
+                setTimeout(() => {
+                    if (this.elements.toDropdown) {
+                        this.elements.toDropdown.classList.remove('active');
+                    }
+                }, 200);
+            });
+        }
+
+        // Close dropdowns on escape
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                document.querySelectorAll('.autocomplete-dropdown').forEach(d => {
+                    d.classList.remove('active');
+                });
+            }
+        });
+    }
+
+    showAutocompleteSuggestions(query, dropdown, input) {
+        if (!dropdown) return;
+        
+        if (!query || query.length < 1) {
+            dropdown.classList.remove('active');
+            return;
+        }
+
+        const suggestions = searchCities(query);
+        
+        if (suggestions.length === 0) {
+            dropdown.innerHTML = `
+                <div class="autocomplete-item" style="color: var(--gray-500); cursor: default;">
+                    No cities found
+                </div>
+            `;
+            dropdown.classList.add('active');
+            return;
+        }
+
+        dropdown.innerHTML = suggestions.map(city => `
+            <div class="autocomplete-item" data-city='${JSON.stringify(city)}'>
+                <span class="city-name">${city.name}</span>
+                <span class="city-code">(${city.code})</span>
+                <span class="country">${city.country}</span>
+            </div>
+        `).join('');
+
+        dropdown.classList.add('active');
+
+        // Add click handlers to suggestions
+        dropdown.querySelectorAll('.autocomplete-item').forEach(item => {
+            item.addEventListener('mousedown', (e) => {
+                e.preventDefault();
+                const city = JSON.parse(item.dataset.city);
+                input.value = city.name;
+                input.dataset.selectedCity = JSON.stringify(city);
+                dropdown.classList.remove('active');
             });
         });
     }
@@ -51,8 +145,23 @@ class SearchModule {
     }
 
     performSearch() {
-        const from = this.elements.fromInput.value.trim() || 'New York';
-        const to = this.elements.toInput.value.trim() || 'London';
+        const fromInput = this.elements.fromInput;
+        const toInput = this.elements.toInput;
+        
+        let from = fromInput.value.trim();
+        let to = toInput.value.trim();
+        
+        // If city was selected from autocomplete, use full name
+        if (fromInput.dataset.selectedCity) {
+            const city = JSON.parse(fromInput.dataset.selectedCity);
+            from = city.name;
+        }
+        
+        if (toInput.dataset.selectedCity) {
+            const city = JSON.parse(toInput.dataset.selectedCity);
+            to = city.name;
+        }
+
         const date = this.elements.departureDate.value;
         const passengers = this.elements.passengerCount.value;
 
@@ -66,7 +175,8 @@ class SearchModule {
             return;
         }
 
-        localStorage.setItem('lastSearch', JSON.stringify({ from, to, date, passengers }));
+        // Store passenger count for seat selection limit
+        localStorage.setItem('skyTicket_passengerCount', passengers);
 
         this.showLoading();
 
@@ -195,6 +305,7 @@ window.selectFlight = (flightId) => {
     }
 };
 
+// Initialize search
 document.addEventListener('DOMContentLoaded', () => {
     window.searchModule = new SearchModule();
 });

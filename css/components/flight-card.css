@@ -21,16 +21,11 @@
     margin-bottom: var(--spacing-md);
 }
 
-.flight-card .airline .avatar {
+.flight-card .airline img {
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    background: var(--primary);
-    color: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 20px;
+    object-fit: cover;
 }
 
 .flight-card .airline .name {
@@ -76,6 +71,22 @@
     margin-bottom: var(--spacing-xs);
 }
 
+.flight-card .flight-info .duration .line {
+    width: 60px;
+    height: 2px;
+    background: var(--gray-300);
+    position: relative;
+}
+
+.flight-card .flight-info .duration .line::after {
+    content: '✈';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 12px;
+}
+
 .flight-card .flight-footer {
     display: flex;
     align-items: center;
@@ -98,6 +109,10 @@
 .flight-card .flight-footer .stops {
     font-size: var(--font-size-sm);
     color: var(--gray-500);
+}
+
+.flight-card .flight-footer .stops .badge {
+    margin-left: var(--spacing-sm);
 }
 
 .flight-card .flight-footer .btn-select {
@@ -125,7 +140,6 @@
     display: flex;
     gap: var(--spacing-sm);
     margin-top: var(--spacing-sm);
-    flex-wrap: wrap;
 }
 
 .flight-card .tags .tag {
@@ -155,6 +169,10 @@
         grid-template-columns: 1fr;
         gap: var(--spacing-sm);
         text-align: center;
+    }
+
+    .flight-card .flight-info .duration .line {
+        margin: 0 auto;
     }
 
     .flight-card .flight-footer {

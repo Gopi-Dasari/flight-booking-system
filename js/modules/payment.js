@@ -1,4 +1,5 @@
-// Payment Module
+// Payment Module - Handles payment processing
+
 class PaymentModule {
     constructor() {
         this.init();

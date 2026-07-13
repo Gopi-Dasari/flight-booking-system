@@ -141,6 +141,77 @@
     font-size: var(--font-size-sm);
 }
 
+/* Autocomplete Styles */
+.autocomplete-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.autocomplete-input {
+    width: 100%;
+    padding: var(--spacing-md);
+    border: 2px solid var(--gray-200);
+    border-radius: var(--border-radius-md);
+    font-size: var(--font-size-base);
+    background: var(--gray-100);
+    outline: none;
+    transition: all var(--transition-fast);
+}
+
+.autocomplete-input:focus {
+    border-color: var(--primary);
+    background: var(--white);
+    box-shadow: 0 0 0 4px rgba(26, 58, 107, 0.1);
+}
+
+.autocomplete-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: var(--white);
+    border: 1px solid var(--gray-200);
+    border-radius: var(--border-radius-md);
+    max-height: 200px;
+    overflow-y: auto;
+    display: none;
+    z-index: 1000;
+    box-shadow: var(--shadow-lg);
+}
+
+.autocomplete-dropdown.active {
+    display: block;
+}
+
+.autocomplete-dropdown .autocomplete-item {
+    padding: var(--spacing-md);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.autocomplete-dropdown .autocomplete-item:hover {
+    background: var(--gray-100);
+}
+
+.autocomplete-dropdown .autocomplete-item .city-name {
+    font-weight: 600;
+    color: var(--gray-800);
+}
+
+.autocomplete-dropdown .autocomplete-item .city-code {
+    font-size: var(--font-size-xs);
+    color: var(--gray-500);
+}
+
+.autocomplete-dropdown .autocomplete-item .country {
+    font-size: var(--font-size-xs);
+    color: var(--gray-500);
+    margin-left: auto;
+}
+
 @media (max-width: 992px) {
     .search-row {
         grid-template-columns: 1fr 1fr;

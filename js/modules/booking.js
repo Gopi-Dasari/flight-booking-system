@@ -1,10 +1,12 @@
-// Booking Module
+// Booking Module - Handles seat selection, passenger details, and booking summary
+
 class BookingModule {
     constructor() {
         this.currentStep = 1;
         this.selectedFlight = null;
         this.selectedSeats = [];
         this.passengers = [];
+        this.maxSeats = parseInt(localStorage.getItem('skyTicket_passengerCount')) || 2;
         this.init();
     }
 
@@ -55,7 +57,10 @@ class BookingModule {
 
     renderStep1() {
         const flight = this.selectedFlight;
-        const seatMap = generateSeatMap();
+        const seatMap = generateSeatMap(40);
+        
+        // Filter seats - only show available ones
+        const availableSeats = seatMap.filter(s => s.status === 'available');
 
         this.elements.bookingContent.innerHTML = `
             <div class="booking-content">
@@ -81,9 +86,12 @@ class BookingModule {
                         <span><strong>Duration:</strong> ${Math.floor(flight.duration / 60)}h ${flight.duration % 60}m</span>
                         <span><strong>Price:</strong> ${formatCurrency(flight.price)}</span>
                     </div>
+                    <div style="text-align: center; margin-top: var(--spacing-md); padding: var(--spacing-sm); background: var(--gray-200); border-radius: var(--border-radius-md);">
+                        <strong>⚠️ You can select up to ${this.maxSeats} seats only</strong>
+                    </div>
                 </div>
 
-                <h3>Select Your Seats</h3>
+                <h3>Select Your Seats (Max ${this.maxSeats})</h3>
                 <div class="seat-legend">
                     <div class="legend-item"><div class="color-box available"></div>Available</div>
                     <div class="legend-item"><div class="color-box selected"></div>Selected</div>
@@ -99,7 +107,7 @@ class BookingModule {
                 </div>
 
                 <div style="text-align: center; margin: var(--spacing-lg) 0;">
-                    <p>Selected: <strong id="selectedSeatCount">0</strong> seats</p>
+                    <p>Selected: <strong id="selectedSeatCount">0</strong> / ${this.maxSeats} seats</p>
                 </div>
 
                 <div class="booking-actions">
@@ -126,16 +134,10 @@ class BookingModule {
             <div class="booking-content">
                 <h3>Passenger Details</h3>
                 <p style="color: var(--gray-600); margin-bottom: var(--spacing-lg);">
-                    Please enter details for all passengers
+                    Please enter details for all passengers (${this.selectedSeats.length} passengers)
                 </p>
 
                 <div id="passengerForms"></div>
-
-                <div style="margin: var(--spacing-md) 0;">
-                    <button class="btn-secondary" id="addPassengerBtn">
-                        <i class="fas fa-user-plus"></i> Add Passenger
-                    </button>
-                </div>
 
                 <div class="booking-actions">
                     <button class="btn-secondary" id="backToSeatsBtn">
@@ -149,18 +151,19 @@ class BookingModule {
         `;
 
         this.passengers = [];
-        this.addPassengerForm();
+        // Create forms for each selected seat
+        for (let i = 0; i < this.selectedSeats.length; i++) {
+            this.addPassengerForm(i);
+        }
 
-        document.getElementById('addPassengerBtn').addEventListener('click', () => this.addPassengerForm());
         document.getElementById('backToSeatsBtn').addEventListener('click', () => this.renderStep1());
         document.getElementById('proceedToPaymentBtn').addEventListener('click', () => this.proceedToPayment());
 
         this.updateStepProgress(2);
     }
 
-    addPassengerForm() {
+    addPassengerForm(index) {
         const container = document.getElementById('passengerForms');
-        const index = this.passengers.length;
 
         const form = document.createElement('div');
         form.className = 'passenger-form';
@@ -169,7 +172,7 @@ class BookingModule {
         form.style.padding = 'var(--spacing-lg)';
         form.style.marginBottom = 'var(--spacing-lg)';
         form.innerHTML = `
-            <h4 style="margin-bottom: var(--spacing-md);">Passenger ${index + 1}</h4>
+            <h4 style="margin-bottom: var(--spacing-md);">Passenger ${index + 1} (Seat ${this.selectedSeats[index]?.id || 'N/A'})</h4>
             <div class="form-group">
                 <label>Full Name</label>
                 <input type="text" class="passenger-name" placeholder="John Doe" required />
@@ -199,11 +202,6 @@ class BookingModule {
                 </select>
                 <span class="error-message">Please select nationality</span>
             </div>
-            ${index > 0 ? `
-                <button class="btn-danger btn-sm remove-passenger" style="margin-top: var(--spacing-sm);">
-                    <i class="fas fa-trash"></i> Remove Passenger
-                </button>
-            ` : ''}
         `;
 
         container.appendChild(form);
@@ -215,20 +213,6 @@ class BookingModule {
             input.addEventListener('change', () => this.validatePassengerForm(form));
             input.addEventListener('blur', () => this.validatePassengerForm(form));
         });
-
-        const removeBtn = form.querySelector('.remove-passenger');
-        if (removeBtn) {
-            removeBtn.addEventListener('click', () => {
-                const idx = Array.from(container.children).indexOf(form);
-                if (idx > -1) {
-                    this.passengers.splice(idx, 1);
-                    form.remove();
-                    container.querySelectorAll('.passenger-form h4').forEach((h4, i) => {
-                        h4.textContent = `Passenger ${i + 1}`;
-                    });
-                }
-            });
-        }
     }
 
     validatePassengerForm(form) {
@@ -315,6 +299,10 @@ class BookingModule {
                         <span>Passengers: ${this.passengers.length}</span>
                         <span>${formatCurrency(this.selectedFlight.price)} × ${this.passengers.length}</span>
                     </div>
+                    <div style="display: flex; justify-content: space-between; padding: var(--spacing-sm) 0; border-bottom: 1px solid var(--gray-200);">
+                        <span>Seats: ${this.selectedSeats.map(s => s.id).join(', ')}</span>
+                        <span>${formatCurrency(this.selectedSeats.reduce((sum, s) => sum + (s.price || 0), 0))}</span>
+                    </div>
                     <div style="display: flex; justify-content: space-between; padding: var(--spacing-sm) 0; font-weight: 700; font-size: var(--font-size-lg); color: var(--primary);">
                         <span>Total</span>
                         <span>${formatCurrency(total)}</span>
@@ -395,6 +383,7 @@ class BookingModule {
             status: 'confirmed',
         };
 
+        // Save booking
         saveBooking(booking);
         clearSelectedFlight();
 
@@ -426,6 +415,10 @@ class BookingModule {
                     <div style="display: flex; justify-content: space-between; padding: var(--spacing-sm) 0; border-bottom: 1px solid var(--gray-200);">
                         <span><strong>Passengers</strong></span>
                         <span>${this.passengers.map(p => p.name).join(', ')}</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; padding: var(--spacing-sm) 0; border-bottom: 1px solid var(--gray-200);">
+                        <span><strong>Seats</strong></span>
+                        <span>${this.selectedSeats.map(s => s.id).join(', ')}</span>
                     </div>
                     <div style="display: flex; justify-content: space-between; padding: var(--spacing-sm) 0;">
                         <span><strong>Total Paid</strong></span>
@@ -545,6 +538,14 @@ class BookingModule {
         });
 
         if (!seatData || seatData.status === 'booked' || seatData.status === 'unavailable') {
+            return;
+        }
+
+        // Check if max seats reached
+        if (seatData.status === 'available' && this.selectedSeats.length >= this.maxSeats) {
+            if (window.headerModule) {
+                window.headerModule.showNotification(`You can only select up to ${this.maxSeats} seats`, 'error');
+            }
             return;
         }
 

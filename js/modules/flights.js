@@ -1,4 +1,5 @@
-// Flights Module
+// Flights Module - Handles flight display and filtering
+
 class FlightsModule {
     constructor() {
         this.flights = [];
@@ -18,6 +19,7 @@ class FlightsModule {
             resultsContainer: document.getElementById('flightResults'),
             sortFilter: document.getElementById('sortFilter'),
             resultsInfo: document.getElementById('resultsInfo'),
+            bookingsList: document.getElementById('bookingsList'),
         };
     }
 
@@ -34,6 +36,13 @@ class FlightsModule {
                 this.flights = state.flights;
                 this.filteredFlights = [...this.flights];
                 this.displayFlights();
+            }
+        });
+
+        // Listen for page changes to refresh My Bookings
+        window.addEventListener('pageChange', (e) => {
+            if (e.detail.page === 'my-bookings') {
+                this.displayMyBookings();
             }
         });
     }
@@ -132,8 +141,95 @@ class FlightsModule {
             </div>
         `).join('');
     }
+
+    // ============================================================
+    // MY BOOKINGS DISPLAY
+    // ============================================================
+
+    displayMyBookings() {
+        const container = this.elements.bookingsList;
+        if (!container) return;
+
+        const bookings = getBookings();
+        
+        if (bookings.length === 0) {
+            container.innerHTML = `
+                <div style="text-align: center; padding: 3rem;">
+                    <i class="fas fa-calendar-check" style="font-size: 3rem; color: var(--gray-400);"></i>
+                    <h3 style="margin-top: var(--spacing-md);">No Bookings Yet</h3>
+                    <p style="color: var(--gray-600);">Start your journey by booking a flight!</p>
+                    <button class="btn-primary" onclick="window.navigateToPage('search')">
+                        <i class="fas fa-search"></i> Search Flights
+                    </button>
+                </div>
+            `;
+            return;
+        }
+
+        container.innerHTML = bookings.map(booking => `
+            <div class="booking-item" style="background: var(--white); border-radius: var(--border-radius-lg); padding: var(--spacing-lg); box-shadow: var(--shadow-md); margin-bottom: var(--spacing-md); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: var(--spacing-md);">
+                <div class="booking-info">
+                    <div style="font-weight: 700; color: var(--primary); font-size: 1.125rem;">PNR: ${booking.pnr}</div>
+                    <div style="color: var(--gray-600);">
+                        ${booking.flight.from} → ${booking.flight.to}
+                    </div>
+                    <div style="font-size: 0.875rem; color: var(--gray-600);">
+                        ${formatDate(booking.flight.departureDate)} | ${booking.flight.departureTime}
+                    </div>
+                    <div style="font-size: 0.875rem; color: var(--gray-600);">
+                        ${booking.flight.airline.name} ${booking.flight.flightNumber}
+                    </div>
+                    <div style="font-size: 0.875rem; color: var(--gray-600);">
+                        Seats: ${booking.seats.map(s => s.id).join(', ')}
+                    </div>
+                    <div style="font-size: 0.875rem; color: var(--gray-600);">
+                        Passengers: ${booking.passengers.map(p => p.name).join(', ')}
+                    </div>
+                </div>
+                <div class="booking-status" style="text-align: right;">
+                    <span class="badge ${booking.status === 'confirmed' ? 'badge-success' : 'badge-danger'}">${booking.status.toUpperCase()}</span>
+                    <div style="margin-top: var(--spacing-sm); font-weight: 700; color: var(--primary); font-size: 1.125rem;">
+                        ${formatCurrency(booking.totalPrice)}
+                    </div>
+                    ${booking.status === 'confirmed' ? `
+                        <button class="btn-danger btn-sm" onclick="window.cancelBooking('${booking.pnr}')" style="margin-top: var(--spacing-sm);">
+                            <i class="fas fa-times"></i> Cancel
+                        </button>
+                    ` : ''}
+                </div>
+            </div>
+        `).join('');
+    }
 }
 
+// ============================================================
+// GLOBAL FUNCTIONS
+// ============================================================
+
+// Cancel booking
+window.cancelBooking = function(pnr) {
+    if (confirm('Are you sure you want to cancel this booking?')) {
+        const success = cancelBookingByPNR(pnr);
+        if (success) {
+            if (window.headerModule) {
+                window.headerModule.showNotification('Booking cancelled successfully', 'success');
+            }
+            // Refresh bookings list
+            if (window.flightsModule) {
+                window.flightsModule.displayMyBookings();
+            }
+        }
+    }
+};
+
+// Display My Bookings (for use in app.js)
+window.displayMyBookings = function() {
+    if (window.flightsModule) {
+        window.flightsModule.displayMyBookings();
+    }
+};
+
+// Initialize
 document.addEventListener('DOMContentLoaded', () => {
     window.flightsModule = new FlightsModule();
 });

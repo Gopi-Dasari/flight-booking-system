@@ -1,11 +1,14 @@
 :root {
+    /* Colors */
     --primary: #1a3a6b;
     --primary-dark: #0f2847;
     --primary-light: #2a5a9a;
     --secondary: #f5b342;
     --secondary-light: #ffd966;
+    --accent: #e74c3c;
     --success: #27ae60;
     
+    /* Neutral */
     --white: #ffffff;
     --gray-100: #f8f9fa;
     --gray-200: #e9ecef;
@@ -16,7 +19,12 @@
     --gray-700: #495057;
     --gray-800: #343a40;
     --gray-900: #212529;
+    --black: #000000;
     
+    /* Background */
+    --bg-gradient: linear-gradient(135deg, #f0f4ff 0%, #e6edf7 100%);
+    
+    /* Typography */
     --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     --font-size-xs: 0.75rem;
     --font-size-sm: 0.875rem;
@@ -27,6 +35,7 @@
     --font-size-3xl: 2rem;
     --font-size-4xl: 2.5rem;
     
+    /* Spacing */
     --spacing-xs: 0.25rem;
     --spacing-sm: 0.5rem;
     --spacing-md: 1rem;
@@ -35,23 +44,29 @@
     --spacing-2xl: 3rem;
     --spacing-3xl: 4rem;
     
+    /* Borders */
     --border-radius-sm: 0.25rem;
     --border-radius-md: 0.5rem;
     --border-radius-lg: 1rem;
     --border-radius-xl: 1.5rem;
     --border-radius-full: 9999px;
     
+    /* Shadows */
     --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
     --shadow-md: 0 4px 6px rgba(0,0,0,0.07);
     --shadow-lg: 0 10px 25px rgba(0,0,0,0.1);
     --shadow-xl: 0 20px 50px rgba(0,0,0,0.15);
+    --shadow-2xl: 0 30px 60px rgba(0,0,0,0.2);
     
+    /* Transitions */
     --transition-fast: 0.15s ease;
     --transition-base: 0.3s ease;
     --transition-slow: 0.5s ease;
     
+    /* Z-index */
     --z-dropdown: 100;
     --z-sticky: 200;
     --z-modal: 300;
+    --z-overlay: 400;
     --z-toast: 500;
 }

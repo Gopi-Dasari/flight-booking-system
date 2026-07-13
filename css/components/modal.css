@@ -99,7 +99,8 @@
 
 .modal-form input[type="text"],
 .modal-form input[type="email"],
-.modal-form input[type="password"] {
+.modal-form input[type="password"],
+.modal-form input[type="date"] {
     width: 100%;
     padding: var(--spacing-md);
     border: 2px solid var(--gray-200);

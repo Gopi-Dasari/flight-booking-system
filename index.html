@@ -25,10 +25,50 @@
 </head>
 <body>
     <div id="app">
-        <!-- HEADER - Will be loaded from template -->
-        <div id="header-container"></div>
+        <!-- HEADER -->
+        <header id="main-header">
+            <div class="header-container">
+                <a href="#" class="logo" id="logoLink">
+                    <i class="fas fa-plane-departure"></i>
+                    <span>SkyTicket</span>
+                </a>
+                
+                <nav class="nav-menu" id="navMenu">
+                    <ul>
+                        <li><a href="#" class="active" data-page="search"><i class="fas fa-search"></i> Search</a></li>
+                        <li><a href="#" data-page="my-bookings"><i class="fas fa-calendar-check"></i> My Bookings</a></li>
+                        <li><a href="#" data-page="profile"><i class="fas fa-user"></i> Profile</a></li>
+                    </ul>
+                    <div class="auth-buttons mobile" id="mobileAuthButtons">
+                        <button class="btn-login" id="mobileLoginBtn"><i class="fas fa-sign-in-alt"></i> Login</button>
+                        <button class="btn-signup" id="mobileSignupBtn"><i class="fas fa-user-plus"></i> Sign Up</button>
+                    </div>
+                </nav>
+                
+                <div class="auth-buttons" id="authButtons">
+                    <button class="btn-login" id="loginBtn"><i class="fas fa-sign-in-alt"></i> Login</button>
+                    <button class="btn-signup" id="signupBtn"><i class="fas fa-user-plus"></i> Sign Up</button>
+                </div>
+                
+                <div class="user-profile hidden" id="userProfile">
+                    <div class="user-avatar" id="userAvatar">JD</div>
+                    <span class="user-name" id="userName">John Doe</span>
+                    <i class="fas fa-chevron-down"></i>
+                    <div class="dropdown-menu" id="dropdownMenu">
+                        <a href="#" data-page="my-bookings"><i class="fas fa-ticket-alt"></i> My Bookings</a>
+                        <a href="#" data-page="profile"><i class="fas fa-user"></i> Profile</a>
+                        <div class="divider"></div>
+                        <a href="#" class="logout" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                    </div>
+                </div>
+                
+                <button class="hamburger" id="hamburgerBtn"><i class="fas fa-bars"></i></button>
+            </div>
+        </header>
         
+        <!-- MAIN CONTENT -->
         <main id="main-content">
+            <!-- Search Section -->
             <section id="search-section" class="page-section active" data-page="search">
                 <div class="search-container">
                     <div class="search-hero">
@@ -41,11 +81,17 @@
                             <div class="search-row">
                                 <div class="form-group">
                                     <label><i class="fas fa-map-pin"></i> From</label>
-                                    <input type="text" id="fromInput" placeholder="City or Airport" value="New York" />
+                                    <div class="autocomplete-wrapper">
+                                        <input type="text" id="fromInput" placeholder="Type city name..." class="autocomplete-input" />
+                                        <div class="autocomplete-dropdown" id="fromDropdown"></div>
+                                    </div>
                                 </div>
                                 <div class="form-group">
                                     <label><i class="fas fa-map-pin"></i> To</label>
-                                    <input type="text" id="toInput" placeholder="City or Airport" value="London" />
+                                    <div class="autocomplete-wrapper">
+                                        <input type="text" id="toInput" placeholder="Type city name..." class="autocomplete-input" />
+                                        <div class="autocomplete-dropdown" id="toDropdown"></div>
+                                    </div>
                                 </div>
                                 <div class="form-group">
                                     <label><i class="fas fa-calendar-alt"></i> Departure</label>
@@ -61,9 +107,7 @@
                                         <option value="5">5 Adults</option>
                                     </select>
                                 </div>
-                                <button type="submit" class="btn-search">
-                                    <i class="fas fa-search"></i> Search Flights
-                                </button>
+                                <button type="submit" class="btn-search"><i class="fas fa-search"></i> Search Flights</button>
                             </div>
                         </form>
                     </div>
@@ -91,11 +135,22 @@
                                 <span>MIA → DXB</span>
                                 <small>From $599</small>
                             </div>
+                            <div class="dest-card" data-from="Hyderabad" data-to="Dubai">
+                                <i class="fas fa-plane"></i>
+                                <span>HYD → DXB</span>
+                                <small>From $449</small>
+                            </div>
+                            <div class="dest-card" data-from="Mumbai" data-to="Singapore">
+                                <i class="fas fa-plane"></i>
+                                <span>BOM → SIN</span>
+                                <small>From $399</small>
+                            </div>
                         </div>
                     </div>
                 </div>
             </section>
             
+            <!-- Results Section -->
             <section id="results-section" class="page-section" data-page="results">
                 <div class="results-container">
                     <div class="results-header">
@@ -116,6 +171,7 @@
                 </div>
             </section>
             
+            <!-- Booking Section -->
             <section id="booking-section" class="page-section" data-page="booking">
                 <div class="booking-container">
                     <div class="booking-progress">
@@ -128,18 +184,141 @@
                 </div>
             </section>
             
+            <!-- My Bookings Section -->
             <section id="my-bookings-section" class="page-section" data-page="my-bookings">
                 <div class="bookings-container">
                     <h2>My Bookings</h2>
                     <div id="bookingsList"></div>
                 </div>
             </section>
+            
+            <!-- Profile Section -->
+            <section id="profile-section" class="page-section" data-page="profile">
+                <div class="profile-container">
+                    <h2>My Profile</h2>
+                    <div id="profileContent"></div>
+                </div>
+            </section>
         </main>
         
-        <div id="footer-container"></div>
-        <div id="modal-container"></div>
+        <!-- FOOTER -->
+        <footer id="main-footer">
+            <div class="footer-container">
+                <div class="footer-content">
+                    <div class="footer-section">
+                        <h4><i class="fas fa-plane"></i> SkyTicket</h4>
+                        <p>Book flights with confidence</p>
+                    </div>
+                    <div class="footer-section">
+                        <h5>Quick Links</h5>
+                        <ul>
+                            <li><a href="#">About Us</a></li>
+                            <li><a href="#">Contact</a></li>
+                            <li><a href="#">Privacy Policy</a></li>
+                            <li><a href="#">Terms of Service</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-section">
+                        <h5>Follow Us</h5>
+                        <div class="social-links">
+                            <a href="#"><i class="fab fa-facebook"></i></a>
+                            <a href="#"><i class="fab fa-twitter"></i></a>
+                            <a href="#"><i class="fab fa-instagram"></i></a>
+                            <a href="#"><i class="fab fa-youtube"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="footer-bottom">
+                    <p>&copy; 2026 SkyTicket. All rights reserved.</p>
+                </div>
+            </div>
+        </footer>
+        
+        <!-- LOGIN MODAL -->
+        <div id="loginModal" class="modal hidden">
+            <div class="modal-content">
+                <button class="close-modal" id="closeLoginModal">&times;</button>
+                <div class="modal-header">
+                    <i class="fas fa-plane-departure"></i>
+                    <h2>Welcome Back</h2>
+                    <p>Sign in to continue your journey</p>
+                </div>
+                <form id="loginForm" class="modal-form">
+                    <div class="form-group">
+                        <label><i class="fas fa-envelope"></i> Email Address</label>
+                        <input type="email" id="loginEmail" placeholder="you@example.com" required />
+                        <span class="error-message" id="loginEmailError"></span>
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-lock"></i> Password</label>
+                        <div class="password-input-wrapper">
+                            <input type="password" id="loginPassword" placeholder="••••••••" required />
+                            <button type="button" class="toggle-password" data-target="loginPassword"><i class="fas fa-eye"></i></button>
+                        </div>
+                        <span class="error-message" id="loginPasswordError"></span>
+                    </div>
+                    <div class="form-options">
+                        <label class="remember-me"><input type="checkbox" id="rememberMe" /><span>Remember me</span></label>
+                        <a href="#" class="forgot-password">Forgot Password?</a>
+                    </div>
+                    <button type="submit" class="btn-full"><i class="fas fa-sign-in-alt"></i> Sign In</button>
+                    <div class="form-footer"><span>Don't have an account? </span><a href="#" id="switchToSignup">Sign Up</a></div>
+                </form>
+            </div>
+        </div>
+
+        <!-- SIGNUP MODAL -->
+        <div id="signupModal" class="modal hidden">
+            <div class="modal-content">
+                <button class="close-modal" id="closeSignupModal">&times;</button>
+                <div class="modal-header">
+                    <i class="fas fa-user-plus"></i>
+                    <h2>Create Account</h2>
+                    <p>Start booking flights in minutes</p>
+                </div>
+                <form id="signupForm" class="modal-form">
+                    <div class="form-group">
+                        <label><i class="fas fa-user"></i> Full Name</label>
+                        <input type="text" id="signupName" placeholder="John Doe" required />
+                        <span class="error-message" id="signupNameError"></span>
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-envelope"></i> Email Address</label>
+                        <input type="email" id="signupEmail" placeholder="you@example.com" required />
+                        <span class="error-message" id="signupEmailError"></span>
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-lock"></i> Password</label>
+                        <div class="password-input-wrapper">
+                            <input type="password" id="signupPassword" placeholder="••••••••" required minlength="8" />
+                            <button type="button" class="toggle-password" data-target="signupPassword"><i class="fas fa-eye"></i></button>
+                        </div>
+                        <span class="password-hint">Must be at least 8 characters</span>
+                        <span class="error-message" id="signupPasswordError"></span>
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-lock"></i> Confirm Password</label>
+                        <div class="password-input-wrapper">
+                            <input type="password" id="signupConfirmPassword" placeholder="••••••••" required />
+                            <button type="button" class="toggle-password" data-target="signupConfirmPassword"><i class="fas fa-eye"></i></button>
+                        </div>
+                        <span class="error-message" id="signupConfirmError"></span>
+                    </div>
+                    <div class="form-group terms">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="agreeTerms" required />
+                            <span>I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a></span>
+                        </label>
+                        <span class="error-message" id="signupTermsError"></span>
+                    </div>
+                    <button type="submit" class="btn-full"><i class="fas fa-user-plus"></i> Create Account</button>
+                    <div class="form-footer"><span>Already have an account? </span><a href="#" id="switchToLogin">Sign In</a></div>
+                </form>
+            </div>
+        </div>
     </div>
     
+    <!-- JAVASCRIPT -->
     <script src="js/utils/constants.js"></script>
     <script src="js/utils/helpers.js"></script>
     <script src="js/utils/date-utils.js"></script>
