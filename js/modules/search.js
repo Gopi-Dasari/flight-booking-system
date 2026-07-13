@@ -1,6 +1,4 @@
-import { searchFlights } from '../services/mock-data.js';
-import { saveSearchHistory } from '../services/storage.js';
-
+// Search Module
 class SearchModule {
     constructor() {
         this.init();
@@ -53,8 +51,8 @@ class SearchModule {
     }
 
     performSearch() {
-        const from = this.elements.fromInput.value.trim();
-        const to = this.elements.toInput.value.trim();
+        const from = this.elements.fromInput.value.trim() || 'New York';
+        const to = this.elements.toInput.value.trim() || 'London';
         const date = this.elements.departureDate.value;
         const passengers = this.elements.passengerCount.value;
 
@@ -68,7 +66,6 @@ class SearchModule {
             return;
         }
 
-        saveSearchHistory({ from, to, date, passengers });
         localStorage.setItem('lastSearch', JSON.stringify({ from, to, date, passengers }));
 
         this.showLoading();

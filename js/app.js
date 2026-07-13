@@ -1,94 +1,101 @@
-document.addEventListener('DOMContentLoaded', async function() {
+// Main Application
+document.addEventListener('DOMContentLoaded', function() {
     console.log('✈️ SkyTicket Application Starting...');
     
-    try {
-        const isLocalFile = window.location.protocol === 'file:';
-        if (isLocalFile) {
-            console.warn('⚠️ Running on file:// protocol. For best experience, use a local server.');
-        }
-        
-        await loadComponent('header-container', 'templates/header.html');
-        await loadComponent('modal-container', 'templates/login-modal.html');
-        await loadComponent('modal-container', 'templates/signup-modal.html', true);
-        await loadComponent('footer-container', 'templates/footer.html');
-        
-        setTimeout(() => {
-            initializeModules();
-        }, 200);
-        
-        console.log('✅ Application Loaded Successfully!');
-    } catch (error) {
-        console.error('❌ Error loading application:', error);
-    }
+    // Clear container first to prevent duplicates
+    document.getElementById('header-container').innerHTML = '';
+    
+    // Load header template
+    loadHeader();
+    
+    // Load other components
+    loadComponent('modal-container', 'templates/login-modal.html');
+    loadComponent('modal-container', 'templates/signup-modal.html', true);
+    loadComponent('footer-container', 'templates/footer.html');
+    
+    // Initialize modules after everything loads
+    setTimeout(function() {
+        initializeModules();
+    }, 500);
 });
 
-async function loadComponent(containerId, templatePath, append = false) {
-    const container = document.getElementById(containerId);
-    if (!container) {
-        console.warn(`Container ${containerId} not found`);
-        return;
-    }
+function loadHeader() {
+    const container = document.getElementById('header-container');
+    if (!container) return;
     
-    try {
-        console.log(`📥 Loading: ${templatePath}`);
-        const response = await fetch(templatePath);
-        
-        if (!response.ok) {
-            throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-        }
-        
-        const html = await response.text();
-        
-        if (!html || html.trim() === '') {
-            throw new Error('Template is empty');
-        }
-        
-        if (append) {
-            container.innerHTML += html;
-        } else {
+    fetch('templates/header.html')
+        .then(response => {
+            if (!response.ok) throw new Error('Failed to load header');
+            return response.text();
+        })
+        .then(html => {
             container.innerHTML = html;
-        }
-        
-        console.log(`✅ Loaded: ${templatePath}`);
-    } catch (error) {
-        console.error(`❌ Error loading ${templatePath}:`, error);
-        
-        const isLocalFile = window.location.protocol === 'file:';
-        let fallbackHtml = `
-            <div style="padding: 1rem; background: #fff3cd; border: 2px solid #ffc107; border-radius: 8px; margin: 10px 0; text-align: center;">
-                <i class="fas fa-exclamation-triangle" style="color: #856404; font-size: 1.5rem;"></i>
-                <h4 style="color: #856404; margin: 10px 0;">Failed to load component</h4>
-                <p style="color: #856404; margin: 5px 0;">File: ${templatePath}</p>
-        `;
-        
-        if (isLocalFile) {
-            fallbackHtml += `
-                <p style="color: #856404; margin: 10px 0; background: #fff; padding: 10px; border-radius: 4px;">
-                    <strong>💡 Tip:</strong> You're running on <code>file://</code> protocol.<br>
-                    Please use a local server:<br>
-                    <code>npx serve</code> or <code>python -m http.server</code>
-                </p>
+            console.log('✅ Header loaded');
+            
+            // Initialize header module AFTER header is in DOM
+            if (window.HeaderModule) {
+                window.headerModule = new window.HeaderModule();
+            }
+            
+            // Initialize auth module AFTER header is loaded
+            if (window.AuthModule) {
+                window.authModule = new window.AuthModule();
+            }
+        })
+        .catch(error => {
+            console.error('❌ Error loading header:', error);
+            container.innerHTML = `
+                <div style="padding: 1rem; background: #dc3545; color: white; text-align: center;">
+                    <h4>Failed to load header</h4>
+                    <p>Please ensure you're using a local server.</p>
+                </div>
             `;
-        }
-        
-        fallbackHtml += `
-                <p style="color: #856404; font-size: 0.875rem; margin-top: 10px;">
-                    <a href="#" onclick="location.reload()" style="color: #0066cc; text-decoration: underline;">
-                        <i class="fas fa-sync"></i> Try Again
-                    </a>
-                </p>
-            </div>
-        `;
-        
-        if (append) {
-            container.innerHTML += fallbackHtml;
-        } else {
-            container.innerHTML = fallbackHtml;
-        }
-    }
+        });
+}
+
+function loadComponent(containerId, templatePath, append = false) {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+    
+    fetch(templatePath)
+        .then(response => {
+            if (!response.ok) throw new Error(`HTTP ${response.status}`);
+            return response.text();
+        })
+        .then(html => {
+            if (append) {
+                container.innerHTML += html;
+            } else {
+                container.innerHTML = html;
+            }
+            console.log(`✅ Loaded: ${templatePath}`);
+        })
+        .catch(error => {
+            console.error(`❌ Error loading ${templatePath}:`, error);
+        });
 }
 
 function initializeModules() {
+    // Initialize search module
+    if (window.SearchModule && !window.searchModule) {
+        window.searchModule = new window.SearchModule();
+    }
+    
+    // Initialize flights module
+    if (window.FlightsModule && !window.flightsModule) {
+        window.flightsModule = new window.FlightsModule();
+    }
+    
+    // Initialize booking module
+    if (window.BookingModule && !window.bookingModule) {
+        window.bookingModule = new window.BookingModule();
+    }
+    
+    // Initialize payment module
+    if (window.PaymentModule && !window.paymentModule) {
+        window.paymentModule = new window.PaymentModule();
+    }
+    
     console.log('✅ All modules initialized');
 }
 

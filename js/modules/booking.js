@@ -1,7 +1,4 @@
-import { generatePNR, formatCurrency, formatDate } from '../utils/helpers.js';
-import { generateSeatMap } from '../services/mock-data.js';
-import { saveBooking, clearBookingData } from '../services/storage.js';
-
+// Booking Module
 class BookingModule {
     constructor() {
         this.currentStep = 1;
@@ -399,7 +396,7 @@ class BookingModule {
         };
 
         saveBooking(booking);
-        clearBookingData();
+        clearSelectedFlight();
 
         this.elements.bookingContent.innerHTML = `
             <div class="booking-content" style="text-align: center;">

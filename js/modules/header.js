@@ -1,14 +1,10 @@
-import { getInitials } from '../utils/helpers.js';
-
+// Header Module - Make sure class name matches
 class HeaderModule {
     constructor() {
+        console.log('🔄 HeaderModule initializing...');
         this.isLoggedIn = false;
         this.currentUser = null;
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', () => this.init());
-        } else {
-            this.init();
-        }
+        this.init();
     }
 
     init() {
@@ -17,6 +13,7 @@ class HeaderModule {
             this.bindEvents();
             this.checkAuthStatus();
             this.handleScroll();
+            console.log('✅ HeaderModule initialized');
         }, 100);
     }
 
@@ -39,6 +36,13 @@ class HeaderModule {
             navLinks: document.querySelectorAll('.nav-menu ul li a'),
             logo: document.getElementById('logoLink'),
         };
+        
+        console.log('📦 Header elements found:', {
+            header: !!this.elements.header,
+            loginBtn: !!this.elements.loginBtn,
+            signupBtn: !!this.elements.signupBtn,
+            userProfile: !!this.elements.userProfile
+        });
     }
 
     bindEvents() {
@@ -48,6 +52,7 @@ class HeaderModule {
 
         if (this.elements.loginBtn) {
             this.elements.loginBtn.addEventListener('click', () => this.openModal('login'));
+            console.log('✅ Login button bound');
         }
         if (this.elements.mobileLoginBtn) {
             this.elements.mobileLoginBtn.addEventListener('click', () => this.openModal('login'));
@@ -55,6 +60,7 @@ class HeaderModule {
 
         if (this.elements.signupBtn) {
             this.elements.signupBtn.addEventListener('click', () => this.openModal('signup'));
+            console.log('✅ Signup button bound');
         }
         if (this.elements.mobileSignupBtn) {
             this.elements.mobileSignupBtn.addEventListener('click', () => this.openModal('signup'));
@@ -67,13 +73,15 @@ class HeaderModule {
             });
         }
 
-        this.elements.navLinks.forEach(link => {
-            link.addEventListener('click', (e) => {
-                e.preventDefault();
-                this.navigateTo(link.dataset.page);
-                this.closeMobileMenu();
+        if (this.elements.navLinks) {
+            this.elements.navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    this.navigateTo(link.dataset.page);
+                    this.closeMobileMenu();
+                });
             });
-        });
+        }
 
         if (this.elements.userProfile) {
             this.elements.userProfile.addEventListener('click', (e) => {
@@ -137,12 +145,14 @@ class HeaderModule {
     }
 
     navigateTo(page) {
-        this.elements.navLinks.forEach(link => {
-            link.classList.remove('active');
-            if (link.dataset.page === page) {
-                link.classList.add('active');
-            }
-        });
+        if (this.elements.navLinks) {
+            this.elements.navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.dataset.page === page) {
+                    link.classList.add('active');
+                }
+            });
+        }
 
         if (window.navigateToPage) {
             window.navigateToPage(page);
@@ -152,8 +162,11 @@ class HeaderModule {
     }
 
     openModal(type) {
-        if (window.authModule) {
+        console.log('🔓 Opening modal:', type);
+        if (window.authModule && typeof window.authModule.openModal === 'function') {
             window.authModule.openModal(type);
+        } else {
+            alert('Please wait for the app to load completely.');
         }
     }
 
@@ -183,8 +196,9 @@ class HeaderModule {
         }
         if (this.elements.userProfile) {
             this.elements.userProfile.classList.remove('hidden');
+            this.elements.userProfile.style.display = 'flex';
             this.elements.userAvatar.textContent = this.currentUser?.name 
-                ? getInitials(this.currentUser.name) 
+                ? this.getInitials(this.currentUser.name) 
                 : 'U';
             this.elements.userName.textContent = this.currentUser?.name || 'User';
         }
@@ -199,6 +213,7 @@ class HeaderModule {
         }
         if (this.elements.userProfile) {
             this.elements.userProfile.classList.add('hidden');
+            this.elements.userProfile.style.display = 'none';
         }
         this.closeDropdown();
     }
@@ -209,6 +224,7 @@ class HeaderModule {
         this.currentUser = null;
         this.updateUIForLoggedOut();
         this.showNotification('Logged out successfully', 'success');
+        this.navigateTo('search');
     }
 
     login(userData) {
@@ -217,6 +233,15 @@ class HeaderModule {
         this.isLoggedIn = true;
         this.updateUIForLoggedIn();
         this.showNotification(`Welcome back, ${userData.name}!`, 'success');
+    }
+
+    getInitials(name) {
+        return name
+            .split(' ')
+            .map(word => word.charAt(0))
+            .join('')
+            .toUpperCase()
+            .slice(0, 2);
     }
 
     handleScroll() {
@@ -247,7 +272,7 @@ class HeaderModule {
             right: '20px',
             padding: '15px 20px',
             borderRadius: '12px',
-            background: type === 'success' ? '#27ae60' : type === 'error' ? '#e74c3c' : '#2a5a9a',
+            background: type === 'success' ? '#27ae60' : type === 'error' ? '#dc3545' : '#2a5a9a',
             color: '#fff',
             fontSize: '14px',
             fontWeight: '500',
@@ -276,40 +301,49 @@ class HeaderModule {
     }
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-    window.headerModule = new HeaderModule();
-});
+// Make HeaderModule available globally
+window.HeaderModule = HeaderModule;
 
-const style = document.createElement('style');
-style.textContent = `
-    @keyframes slideInRight {
-        from { transform: translateX(100%); opacity: 0; }
-        to { transform: translateX(0); opacity: 1; }
-    }
-    @keyframes slideOutRight {
-        from { transform: translateX(0); opacity: 1; }
-        to { transform: translateX(100%); opacity: 0; }
-    }
-    .notification {
-        animation: slideInRight 0.3s ease;
-    }
-    .notification-close {
-        background: none;
-        border: none;
-        color: #fff;
-        opacity: 0.7;
-        padding: 0 0 0 10px;
-        font-size: 16px;
-        cursor: pointer;
-    }
-    .notification-close:hover {
-        opacity: 1;
-    }
-    .page-section {
-        display: none;
-    }
-    .page-section.active {
-        display: block;
-    }
-`;
-document.head.appendChild(style);
+// Add animation styles
+if (!document.querySelector('#headerStyles')) {
+    const style = document.createElement('style');
+    style.id = 'headerStyles';
+    style.textContent = `
+        @keyframes slideInRight {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        @keyframes slideOutRight {
+            from { transform: translateX(0); opacity: 1; }
+            to { transform: translateX(100%); opacity: 0; }
+        }
+        .notification {
+            animation: slideInRight 0.3s ease;
+        }
+        .notification-close {
+            background: none;
+            border: none;
+            color: #fff;
+            opacity: 0.7;
+            padding: 0 0 0 10px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .notification-close:hover {
+            opacity: 1;
+        }
+        .page-section {
+            display: none;
+        }
+        .page-section.active {
+            display: block;
+        }
+        .user-profile {
+            display: none;
+        }
+        .user-profile.visible {
+            display: flex;
+        }
+    `;
+    document.head.appendChild(style);
+}

@@ -1,4 +1,4 @@
-<!-- Header Template -->
+<!-- HEADER TEMPLATE - Clean version with single auth buttons -->
 <header id="main-header">
     <div class="header-container">
         <a href="#" class="logo" id="logoLink">
@@ -18,13 +18,9 @@
                         <i class="fas fa-calendar-check"></i> My Bookings
                     </a>
                 </li>
-                <li>
-                    <a href="#" data-page="profile">
-                        <i class="fas fa-user"></i> Profile
-                    </a>
-                </li>
             </ul>
             
+            <!-- MOBILE AUTH BUTTONS -->
             <div class="auth-buttons mobile" id="mobileAuthButtons">
                 <button class="btn-login" id="mobileLoginBtn">
                     <i class="fas fa-sign-in-alt"></i> Login
@@ -35,6 +31,7 @@
             </div>
         </nav>
         
+        <!-- DESKTOP AUTH BUTTONS (Only ONE set) -->
         <div class="auth-buttons" id="authButtons">
             <button class="btn-login" id="loginBtn">
                 <i class="fas fa-sign-in-alt"></i> Login
@@ -44,20 +41,15 @@
             </button>
         </div>
         
+        <!-- USER PROFILE -->
         <div class="user-profile hidden" id="userProfile">
             <div class="user-avatar" id="userAvatar">JD</div>
             <span class="user-name" id="userName">John Doe</span>
             <i class="fas fa-chevron-down" style="font-size: 12px; color: var(--gray-500);"></i>
             
             <div class="dropdown-menu" id="dropdownMenu">
-                <a href="#" data-page="profile">
-                    <i class="fas fa-user"></i> My Profile
-                </a>
                 <a href="#" data-page="my-bookings">
                     <i class="fas fa-ticket-alt"></i> My Bookings
-                </a>
-                <a href="#">
-                    <i class="fas fa-cog"></i> Settings
                 </a>
                 <div class="divider"></div>
                 <a href="#" class="logout" id="logoutBtn">

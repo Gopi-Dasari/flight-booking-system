@@ -1,6 +1,4 @@
-import { formatCurrency } from '../utils/helpers.js';
-import { store } from '../store.js';
-
+// Flights Module
 class FlightsModule {
     constructor() {
         this.flights = [];

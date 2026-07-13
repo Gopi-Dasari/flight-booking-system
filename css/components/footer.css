@@ -98,8 +98,4 @@
     .social-links {
         justify-content: center;
     }
-
-    .footer-container {
-        padding: 0 var(--spacing-md);
-    }
 }

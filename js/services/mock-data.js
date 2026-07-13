@@ -1,5 +1,4 @@
-import { generateId } from '../utils/helpers.js';
-
+// Mock Flight Data
 const airlines = [
     { name: 'Emirates', code: 'EK', logo: '✈️' },
     { name: 'Delta', code: 'DL', logo: '✈️' },
@@ -11,20 +10,7 @@ const airlines = [
     { name: 'Lufthansa', code: 'LH', logo: '✈️' },
 ];
 
-const airports = [
-    { code: 'NYC', city: 'New York', country: 'USA' },
-    { code: 'LON', city: 'London', country: 'UK' },
-    { code: 'PAR', city: 'Paris', country: 'France' },
-    { code: 'TYO', city: 'Tokyo', country: 'Japan' },
-    { code: 'DXB', city: 'Dubai', country: 'UAE' },
-    { code: 'SIN', city: 'Singapore', country: 'Singapore' },
-    { code: 'LAX', city: 'Los Angeles', country: 'USA' },
-    { code: 'CHI', city: 'Chicago', country: 'USA' },
-    { code: 'MIA', city: 'Miami', country: 'USA' },
-    { code: 'FRA', city: 'Frankfurt', country: 'Germany' },
-];
-
-const generateFlight = (from, to, date) => {
+function generateFlight(from, to, date) {
     const airline = airlines[Math.floor(Math.random() * airlines.length)];
     const departureHour = Math.floor(Math.random() * 24);
     const departureMinute = Math.floor(Math.random() * 60);
@@ -54,9 +40,9 @@ const generateFlight = (from, to, date) => {
         currency: 'USD',
         seatsAvailable: Math.floor(Math.random() * 50) + 10,
     };
-};
+}
 
-export const searchFlights = (from, to, date) => {
+function searchFlights(from, to, date) {
     const flights = [];
     const numFlights = Math.floor(Math.random() * 5) + 3;
     
@@ -66,26 +52,9 @@ export const searchFlights = (from, to, date) => {
     
     flights.sort((a, b) => a.price - b.price);
     return flights;
-};
+}
 
-export const getPopularRoutes = () => {
-    return [
-        { from: 'New York', to: 'London' },
-        { from: 'Los Angeles', to: 'Tokyo' },
-        { from: 'Chicago', to: 'Paris' },
-        { from: 'Miami', to: 'Dubai' },
-    ];
-};
-
-export const getAirports = () => {
-    return airports;
-};
-
-export const getAirlines = () => {
-    return airlines;
-};
-
-export const generateSeatMap = () => {
+function generateSeatMap() {
     const rows = 10;
     const cols = 6;
     const seats = [];
@@ -105,4 +74,4 @@ export const generateSeatMap = () => {
     }
     
     return seats;
-};
+}

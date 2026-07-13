@@ -25,6 +25,7 @@
 </head>
 <body>
     <div id="app">
+        <!-- HEADER - Will be loaded from template -->
         <div id="header-container"></div>
         
         <main id="main-content">
@@ -40,11 +41,11 @@
                             <div class="search-row">
                                 <div class="form-group">
                                     <label><i class="fas fa-map-pin"></i> From</label>
-                                    <input type="text" id="fromInput" placeholder="City or Airport" />
+                                    <input type="text" id="fromInput" placeholder="City or Airport" value="New York" />
                                 </div>
                                 <div class="form-group">
                                     <label><i class="fas fa-map-pin"></i> To</label>
-                                    <input type="text" id="toInput" placeholder="City or Airport" />
+                                    <input type="text" id="toInput" placeholder="City or Airport" value="London" />
                                 </div>
                                 <div class="form-group">
                                     <label><i class="fas fa-calendar-alt"></i> Departure</label>
@@ -130,12 +131,7 @@
             <section id="my-bookings-section" class="page-section" data-page="my-bookings">
                 <div class="bookings-container">
                     <h2>My Bookings</h2>
-                    <div id="bookingsList">
-                        <p style="text-align: center; color: var(--gray-600); padding: 3rem;">
-                            <i class="fas fa-calendar-check" style="font-size: 2rem; display: block; margin-bottom: 1rem;"></i>
-                            You have no bookings yet
-                        </p>
-                    </div>
+                    <div id="bookingsList"></div>
                 </div>
             </section>
         </main>

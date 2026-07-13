@@ -1,5 +1,4 @@
-import { formatCurrency } from '../utils/helpers.js';
-
+// Payment Module
 class PaymentModule {
     constructor() {
         this.init();
@@ -87,15 +86,6 @@ class PaymentModule {
                 errorMsg.classList.add('visible');
             }
         }
-    }
-
-    clearErrors() {
-        document.querySelectorAll('.error').forEach(el => {
-            el.classList.remove('error');
-        });
-        document.querySelectorAll('.error-message.visible').forEach(el => {
-            el.classList.remove('visible');
-        });
     }
 
     processPayment(amount, callback) {

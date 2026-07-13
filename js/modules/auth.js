@@ -1,19 +1,12 @@
-import { isValidEmail } from '../utils/helpers.js';
-
+// Authentication Module
 class AuthModule {
     constructor() {
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', () => this.init());
-        } else {
-            this.init();
-        }
-    }
-
-    init() {
+        console.log('🔄 AuthModule initializing...');
         setTimeout(() => {
             this.cacheElements();
             this.bindEvents();
             this.setupPasswordToggle();
+            console.log('✅ AuthModule initialized');
         }, 150);
     }
 
@@ -45,6 +38,8 @@ class AuthModule {
             closeSignup: document.getElementById('closeSignupModal'),
             switchToLogin: document.getElementById('switchToLogin'),
         };
+        
+        console.log('📦 Auth elements cached:', Object.keys(this.elements).filter(k => this.elements[k]));
     }
 
     bindEvents() {
@@ -85,6 +80,7 @@ class AuthModule {
             });
         }
 
+        // Close modals on overlay click
         if (this.loginModal) {
             this.loginModal.addEventListener('click', (e) => {
                 if (e.target === this.loginModal) {
@@ -101,6 +97,7 @@ class AuthModule {
             });
         }
 
+        // Real-time validation
         if (this.elements.loginEmail) {
             this.elements.loginEmail.addEventListener('blur', () => this.validateLoginEmail());
             this.elements.loginPassword.addEventListener('blur', () => this.validateLoginPassword());
@@ -129,6 +126,7 @@ class AuthModule {
     }
 
     openModal(type) {
+        console.log('📂 Opening modal:', type);
         if (type === 'login' && this.loginModal) {
             this.loginModal.classList.remove('hidden');
             document.body.style.overflow = 'hidden';
@@ -137,6 +135,8 @@ class AuthModule {
             this.signupModal.classList.remove('hidden');
             document.body.style.overflow = 'hidden';
             if (this.elements.signupName) this.elements.signupName.focus();
+        } else {
+            console.warn('⚠️ Modal not found:', type);
         }
     }
 
@@ -173,14 +173,13 @@ class AuthModule {
                 name: user.name,
                 email: user.email,
                 id: user.id,
-                memberSince: user.memberSince,
             };
             
             if (window.headerModule) {
                 window.headerModule.login(userData);
             } else {
                 localStorage.setItem('skyTicket_user', JSON.stringify(userData));
-                window.location.reload();
+                location.reload();
             }
             
             this.closeModal('login');
@@ -235,14 +234,13 @@ class AuthModule {
             name: newUser.name,
             email: newUser.email,
             id: newUser.id,
-            memberSince: newUser.memberSince,
         };
 
         if (window.headerModule) {
             window.headerModule.login(userData);
         } else {
             localStorage.setItem('skyTicket_user', JSON.stringify(userData));
-            window.location.reload();
+            location.reload();
         }
 
         this.closeModal('signup');
@@ -363,8 +361,5 @@ class AuthModule {
     }
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-    window.authModule = new AuthModule();
-    window.openLoginModal = () => window.authModule.openModal('login');
-    window.openSignupModal = () => window.authModule.openModal('signup');
-});
+// Make AuthModule available globally
+window.AuthModule = AuthModule;

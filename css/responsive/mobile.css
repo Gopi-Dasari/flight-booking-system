@@ -11,10 +11,6 @@
         font-size: var(--font-size-lg);
     }
 
-    .container {
-        padding: 0 var(--spacing-sm);
-    }
-
     .grid-2,
     .grid-3,
     .grid-4 {
@@ -31,10 +27,6 @@
 
     .search-hero h1 {
         font-size: var(--font-size-2xl);
-    }
-
-    .search-hero p {
-        font-size: var(--font-size-base);
     }
 
     .search-box {
@@ -69,10 +61,6 @@
     .results-header {
         flex-direction: column;
         align-items: stretch;
-    }
-
-    .results-controls {
-        flex-wrap: wrap;
     }
 
     .results-controls select {
@@ -154,10 +142,6 @@
 
     .social-links {
         justify-content: center;
-    }
-
-    .footer-container {
-        padding: 0 var(--spacing-md);
     }
 
     .notification {

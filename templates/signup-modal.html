@@ -3,37 +3,28 @@
         <button class="close-modal" id="closeSignupModal">&times;</button>
         
         <div class="modal-header">
-            <i class="fas fa-user-plus" style="font-size: 2rem; color: var(--secondary);"></i>
+            <i class="fas fa-user-plus"></i>
             <h2>Create Account</h2>
-            <p class="text-muted">Start booking flights in minutes</p>
+            <p>Start booking flights in minutes</p>
         </div>
         
         <form id="signupForm" class="modal-form">
             <div class="form-group">
-                <label>
-                    <i class="fas fa-user"></i>
-                    Full Name
-                </label>
-                <input type="text" id="signupName" placeholder="John Doe" required autocomplete="name" />
+                <label><i class="fas fa-user"></i> Full Name</label>
+                <input type="text" id="signupName" placeholder="John Doe" required />
                 <span class="error-message" id="signupNameError"></span>
             </div>
             
             <div class="form-group">
-                <label>
-                    <i class="fas fa-envelope"></i>
-                    Email Address
-                </label>
-                <input type="email" id="signupEmail" placeholder="you@example.com" required autocomplete="email" />
+                <label><i class="fas fa-envelope"></i> Email Address</label>
+                <input type="email" id="signupEmail" placeholder="you@example.com" required />
                 <span class="error-message" id="signupEmailError"></span>
             </div>
             
             <div class="form-group">
-                <label>
-                    <i class="fas fa-lock"></i>
-                    Password
-                </label>
+                <label><i class="fas fa-lock"></i> Password</label>
                 <div class="password-input-wrapper">
-                    <input type="password" id="signupPassword" placeholder="••••••••" required autocomplete="new-password" minlength="8" />
+                    <input type="password" id="signupPassword" placeholder="••••••••" required minlength="8" />
                     <button type="button" class="toggle-password" data-target="signupPassword">
                         <i class="fas fa-eye"></i>
                     </button>
@@ -43,12 +34,9 @@
             </div>
             
             <div class="form-group">
-                <label>
-                    <i class="fas fa-lock"></i>
-                    Confirm Password
-                </label>
+                <label><i class="fas fa-lock"></i> Confirm Password</label>
                 <div class="password-input-wrapper">
-                    <input type="password" id="signupConfirmPassword" placeholder="••••••••" required autocomplete="new-password" />
+                    <input type="password" id="signupConfirmPassword" placeholder="••••••••" required />
                     <button type="button" class="toggle-password" data-target="signupConfirmPassword">
                         <i class="fas fa-eye"></i>
                     </button>
@@ -59,21 +47,17 @@
             <div class="form-group terms">
                 <label class="checkbox-label">
                     <input type="checkbox" id="agreeTerms" required />
-                    <span>
-                        I agree to the 
-                        <a href="#" target="_blank">Terms of Service</a> and 
-                        <a href="#" target="_blank">Privacy Policy</a>
-                    </span>
+                    <span>I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a></span>
                 </label>
                 <span class="error-message" id="signupTermsError"></span>
             </div>
             
-            <button type="submit" class="btn-primary btn-full">
+            <button type="submit" class="btn-full">
                 <i class="fas fa-user-plus"></i> Create Account
             </button>
             
             <div class="form-footer">
-                <span>Already have an account?</span>
+                <span>Already have an account? </span>
                 <a href="#" id="switchToLogin">Sign In</a>
             </div>
         </form>
