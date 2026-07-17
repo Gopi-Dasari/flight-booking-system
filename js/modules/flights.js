@@ -1,5 +1,3 @@
-// Flights Module - Handles flight display and filtering
-
 class FlightsModule {
     constructor() {
         this.flights = [];
@@ -31,15 +29,6 @@ class FlightsModule {
             });
         }
 
-        store.subscribe((state) => {
-            if (state.flights.length > 0) {
-                this.flights = state.flights;
-                this.filteredFlights = [...this.flights];
-                this.displayFlights();
-            }
-        });
-
-        // Listen for page changes to refresh My Bookings
         window.addEventListener('pageChange', (e) => {
             if (e.detail.page === 'my-bookings') {
                 this.displayMyBookings();
@@ -48,11 +37,13 @@ class FlightsModule {
     }
 
     loadFlights() {
-        const state = store.getState();
-        if (state.flights.length > 0) {
-            this.flights = state.flights;
-            this.filteredFlights = [...this.flights];
-            this.displayFlights();
+        if (window.store) {
+            const state = window.store.getState();
+            if (state.flights.length > 0) {
+                this.flights = state.flights;
+                this.filteredFlights = [...this.flights];
+                this.displayFlights();
+            }
         }
     }
 
@@ -142,17 +133,21 @@ class FlightsModule {
         `).join('');
     }
 
-    // ============================================================
-    // MY BOOKINGS DISPLAY
-    // ============================================================
-
     displayMyBookings() {
         const container = this.elements.bookingsList;
         if (!container) return;
 
-        const bookings = getBookings();
+        let bookings = [];
+        try {
+            const stored = localStorage.getItem('skyTicket_bookings');
+            if (stored) {
+                bookings = JSON.parse(stored);
+            }
+        } catch (e) {
+            bookings = [];
+        }
         
-        if (bookings.length === 0) {
+        if (!bookings || bookings.length === 0) {
             container.innerHTML = `
                 <div style="text-align: center; padding: 3rem;">
                     <i class="fas fa-calendar-check" style="font-size: 3rem; color: var(--gray-400);"></i>
@@ -165,6 +160,9 @@ class FlightsModule {
             `;
             return;
         }
+
+        // Show latest first
+        bookings = [...bookings].reverse();
 
         container.innerHTML = bookings.map(booking => `
             <div class="booking-item" style="background: var(--white); border-radius: var(--border-radius-lg); padding: var(--spacing-lg); box-shadow: var(--shadow-md); margin-bottom: var(--spacing-md); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: var(--spacing-md);">
@@ -202,34 +200,31 @@ class FlightsModule {
     }
 }
 
-// ============================================================
-// GLOBAL FUNCTIONS
-// ============================================================
-
-// Cancel booking
 window.cancelBooking = function(pnr) {
     if (confirm('Are you sure you want to cancel this booking?')) {
-        const success = cancelBookingByPNR(pnr);
-        if (success) {
-            if (window.headerModule) {
-                window.headerModule.showNotification('Booking cancelled successfully', 'success');
+        try {
+            let bookings = JSON.parse(localStorage.getItem('skyTicket_bookings') || '[]');
+            const index = bookings.findIndex(b => b.pnr === pnr);
+            if (index !== -1) {
+                bookings[index].status = 'cancelled';
+                localStorage.setItem('skyTicket_bookings', JSON.stringify(bookings));
+                alert('✅ Booking cancelled successfully!');
+                if (window.flightsModule) {
+                    window.flightsModule.displayMyBookings();
+                }
             }
-            // Refresh bookings list
-            if (window.flightsModule) {
-                window.flightsModule.displayMyBookings();
-            }
+        } catch (e) {
+            alert('Error cancelling booking');
         }
     }
 };
 
-// Display My Bookings (for use in app.js)
 window.displayMyBookings = function() {
     if (window.flightsModule) {
         window.flightsModule.displayMyBookings();
     }
 };
 
-// Initialize
 document.addEventListener('DOMContentLoaded', () => {
     window.flightsModule = new FlightsModule();
 });

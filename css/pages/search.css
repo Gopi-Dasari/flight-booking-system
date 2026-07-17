@@ -56,7 +56,6 @@
     border: 2px solid var(--gray-200);
     border-radius: var(--border-radius-md);
     font-size: var(--font-size-base);
-    transition: all var(--transition-fast);
     background: var(--gray-100);
     outline: none;
 }
@@ -91,57 +90,6 @@
     box-shadow: var(--shadow-md);
 }
 
-.quick-destinations {
-    margin-top: var(--spacing-2xl);
-}
-
-.quick-destinations h3 {
-    text-align: center;
-    margin-bottom: var(--spacing-lg);
-    color: var(--gray-700);
-}
-
-.destination-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: var(--spacing-md);
-}
-
-.dest-card {
-    background: var(--white);
-    border-radius: var(--border-radius-lg);
-    padding: var(--spacing-lg);
-    text-align: center;
-    box-shadow: var(--shadow-sm);
-    cursor: pointer;
-    transition: all var(--transition-base);
-    border: 2px solid transparent;
-}
-
-.dest-card:hover {
-    border-color: var(--primary);
-    transform: translateY(-4px);
-    box-shadow: var(--shadow-lg);
-}
-
-.dest-card i {
-    font-size: var(--font-size-2xl);
-    color: var(--primary);
-    margin-bottom: var(--spacing-sm);
-}
-
-.dest-card span {
-    display: block;
-    font-weight: 600;
-    color: var(--gray-800);
-}
-
-.dest-card small {
-    color: var(--gray-500);
-    font-size: var(--font-size-sm);
-}
-
-/* Autocomplete Styles */
 .autocomplete-wrapper {
     position: relative;
     width: 100%;
@@ -155,7 +103,6 @@
     font-size: var(--font-size-base);
     background: var(--gray-100);
     outline: none;
-    transition: all var(--transition-fast);
 }
 
 .autocomplete-input:focus {
@@ -210,6 +157,56 @@
     font-size: var(--font-size-xs);
     color: var(--gray-500);
     margin-left: auto;
+}
+
+.quick-destinations {
+    margin-top: var(--spacing-2xl);
+}
+
+.quick-destinations h3 {
+    text-align: center;
+    margin-bottom: var(--spacing-lg);
+    color: var(--gray-700);
+}
+
+.destination-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: var(--spacing-md);
+}
+
+.dest-card {
+    background: var(--white);
+    border-radius: var(--border-radius-lg);
+    padding: var(--spacing-lg);
+    text-align: center;
+    box-shadow: var(--shadow-sm);
+    cursor: pointer;
+    transition: all var(--transition-base);
+    border: 2px solid transparent;
+}
+
+.dest-card:hover {
+    border-color: var(--primary);
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+}
+
+.dest-card i {
+    font-size: var(--font-size-2xl);
+    color: var(--primary);
+    margin-bottom: var(--spacing-sm);
+}
+
+.dest-card span {
+    display: block;
+    font-weight: 600;
+    color: var(--gray-800);
+}
+
+.dest-card small {
+    color: var(--gray-500);
+    font-size: var(--font-size-sm);
 }
 
 @media (max-width: 992px) {

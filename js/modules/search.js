@@ -1,5 +1,3 @@
-// Search Module with Autocomplete
-
 class SearchModule {
     constructor() {
         this.init();
@@ -40,7 +38,6 @@ class SearchModule {
                 const to = card.dataset.to;
                 if (this.elements.fromInput) this.elements.fromInput.value = from;
                 if (this.elements.toInput) this.elements.toInput.value = to;
-                // Clear any selected city data
                 if (this.elements.fromInput) delete this.elements.fromInput.dataset.selectedCity;
                 if (this.elements.toInput) delete this.elements.toInput.dataset.selectedCity;
                 this.performSearch();
@@ -49,14 +46,12 @@ class SearchModule {
     }
 
     setupAutocomplete() {
-        // From input autocomplete
         if (this.elements.fromInput) {
             this.elements.fromInput.addEventListener('input', (e) => {
                 const query = e.target.value;
                 const dropdown = this.elements.fromDropdown;
                 this.showAutocompleteSuggestions(query, dropdown, this.elements.fromInput);
             });
-
             this.elements.fromInput.addEventListener('blur', () => {
                 setTimeout(() => {
                     if (this.elements.fromDropdown) {
@@ -66,14 +61,12 @@ class SearchModule {
             });
         }
 
-        // To input autocomplete
         if (this.elements.toInput) {
             this.elements.toInput.addEventListener('input', (e) => {
                 const query = e.target.value;
                 const dropdown = this.elements.toDropdown;
                 this.showAutocompleteSuggestions(query, dropdown, this.elements.toInput);
             });
-
             this.elements.toInput.addEventListener('blur', () => {
                 setTimeout(() => {
                     if (this.elements.toDropdown) {
@@ -83,7 +76,6 @@ class SearchModule {
             });
         }
 
-        // Close dropdowns on escape
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') {
                 document.querySelectorAll('.autocomplete-dropdown').forEach(d => {
@@ -101,7 +93,7 @@ class SearchModule {
             return;
         }
 
-        const suggestions = searchCities(query);
+        const suggestions = window.searchCities ? window.searchCities(query) : [];
         
         if (suggestions.length === 0) {
             dropdown.innerHTML = `
@@ -123,7 +115,6 @@ class SearchModule {
 
         dropdown.classList.add('active');
 
-        // Add click handlers to suggestions
         dropdown.querySelectorAll('.autocomplete-item').forEach(item => {
             item.addEventListener('mousedown', (e) => {
                 e.preventDefault();
@@ -151,7 +142,6 @@ class SearchModule {
         let from = fromInput.value.trim();
         let to = toInput.value.trim();
         
-        // If city was selected from autocomplete, use full name
         if (fromInput.dataset.selectedCity) {
             const city = JSON.parse(fromInput.dataset.selectedCity);
             from = city.name;
@@ -166,22 +156,20 @@ class SearchModule {
         const passengers = this.elements.passengerCount.value;
 
         if (!from || !to) {
-            this.showError('Please enter both departure and destination cities');
+            alert('Please enter both departure and destination cities');
             return;
         }
 
         if (!date) {
-            this.showError('Please select a departure date');
+            alert('Please select a departure date');
             return;
         }
 
-        // Store passenger count for seat selection limit
         localStorage.setItem('skyTicket_passengerCount', passengers);
-
         this.showLoading();
 
         setTimeout(() => {
-            const flights = searchFlights(from, to, date);
+            const flights = window.searchFlights ? window.searchFlights(from, to, date) : [];
             this.displayResults(flights, { from, to, date, passengers });
             
             if (window.navigateToPage) {
@@ -268,14 +256,6 @@ class SearchModule {
             `).join('');
         }
     }
-
-    showError(message) {
-        if (window.headerModule) {
-            window.headerModule.showNotification(message, 'error');
-        } else {
-            alert(message);
-        }
-    }
 }
 
 window.selectFlight = (flightId) => {
@@ -294,18 +274,12 @@ window.selectFlight = (flightId) => {
 
     if (selectedFlight) {
         localStorage.setItem('skyTicket_selectedFlight', JSON.stringify(selectedFlight));
-        
         if (window.navigateToPage) {
             window.navigateToPage('booking');
-        }
-        
-        if (window.headerModule) {
-            window.headerModule.showNotification(`Selected ${selectedFlight.airline.name} flight`, 'success');
         }
     }
 };
 
-// Initialize search
 document.addEventListener('DOMContentLoaded', () => {
     window.searchModule = new SearchModule();
 });

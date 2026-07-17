@@ -37,30 +37,13 @@
                     <ul>
                         <li><a href="#" class="active" data-page="search"><i class="fas fa-search"></i> Search</a></li>
                         <li><a href="#" data-page="my-bookings"><i class="fas fa-calendar-check"></i> My Bookings</a></li>
-                        <li><a href="#" data-page="profile"><i class="fas fa-user"></i> Profile</a></li>
+                        <li class="nav-divider"></li>
+                        <li><a href="#" data-page="about"><i class="fas fa-info-circle"></i> About Us</a></li>
+                        <li><a href="#" data-page="contact"><i class="fas fa-envelope"></i> Contact</a></li>
+                        <li><a href="#" data-page="privacy"><i class="fas fa-shield-alt"></i> Privacy</a></li>
+                        <li><a href="#" data-page="terms"><i class="fas fa-file-contract"></i> Terms</a></li>
                     </ul>
-                    <div class="auth-buttons mobile" id="mobileAuthButtons">
-                        <button class="btn-login" id="mobileLoginBtn"><i class="fas fa-sign-in-alt"></i> Login</button>
-                        <button class="btn-signup" id="mobileSignupBtn"><i class="fas fa-user-plus"></i> Sign Up</button>
-                    </div>
                 </nav>
-                
-                <div class="auth-buttons" id="authButtons">
-                    <button class="btn-login" id="loginBtn"><i class="fas fa-sign-in-alt"></i> Login</button>
-                    <button class="btn-signup" id="signupBtn"><i class="fas fa-user-plus"></i> Sign Up</button>
-                </div>
-                
-                <div class="user-profile hidden" id="userProfile">
-                    <div class="user-avatar" id="userAvatar">JD</div>
-                    <span class="user-name" id="userName">John Doe</span>
-                    <i class="fas fa-chevron-down"></i>
-                    <div class="dropdown-menu" id="dropdownMenu">
-                        <a href="#" data-page="my-bookings"><i class="fas fa-ticket-alt"></i> My Bookings</a>
-                        <a href="#" data-page="profile"><i class="fas fa-user"></i> Profile</a>
-                        <div class="divider"></div>
-                        <a href="#" class="logout" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</a>
-                    </div>
-                </div>
                 
                 <button class="hamburger" id="hamburgerBtn"><i class="fas fa-bars"></i></button>
             </div>
@@ -184,7 +167,7 @@
                 </div>
             </section>
             
-            <!-- My Bookings Section -->
+            <!-- My Bookings -->
             <section id="my-bookings-section" class="page-section" data-page="my-bookings">
                 <div class="bookings-container">
                     <h2>My Bookings</h2>
@@ -192,11 +175,83 @@
                 </div>
             </section>
             
-            <!-- Profile Section -->
-            <section id="profile-section" class="page-section" data-page="profile">
-                <div class="profile-container">
-                    <h2>My Profile</h2>
-                    <div id="profileContent"></div>
+            <!-- About Us -->
+            <section id="about-section" class="page-section" data-page="about">
+                <div class="static-page-container">
+                    <h2>About Us</h2>
+                    <div class="static-page-content">
+                        <h3>✈️ Welcome to SkyTicket</h3>
+                        <p>SkyTicket is a leading online flight booking platform that connects travelers with the best flight deals worldwide.</p>
+                        <h3>Our Mission</h3>
+                        <p>To make air travel accessible and affordable for everyone.</p>
+                        <div class="stats-grid">
+                            <div class="stat-item"><span class="stat-number">500K+</span><span class="stat-label">Happy Customers</span></div>
+                            <div class="stat-item"><span class="stat-number">10K+</span><span class="stat-label">Daily Bookings</span></div>
+                            <div class="stat-item"><span class="stat-number">200+</span><span class="stat-label">Airlines</span></div>
+                            <div class="stat-item"><span class="stat-number">4.8★</span><span class="stat-label">Rating</span></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Contact -->
+            <section id="contact-section" class="page-section" data-page="contact">
+                <div class="static-page-container">
+                    <h2>Contact Us</h2>
+                    <div class="static-page-content">
+                        <div class="contact-grid">
+                            <div class="contact-info">
+                                <h3>Get in Touch</h3>
+                                <div class="contact-details">
+                                    <div class="contact-item"><i class="fas fa-envelope"></i><div><strong>Email</strong><p>support@skyticket.com</p></div></div>
+                                    <div class="contact-item"><i class="fas fa-phone"></i><div><strong>Phone</strong><p>+1 (800) 123-4567</p></div></div>
+                                    <div class="contact-item"><i class="fas fa-map-marker-alt"></i><div><strong>Address</strong><p>123 Aviation Blvd, New York, NY 10001</p></div></div>
+                                </div>
+                            </div>
+                            <div class="contact-form-wrapper">
+                                <h3>Send us a Message</h3>
+                                <form id="contactForm" class="contact-form">
+                                    <div class="form-group"><label>Your Name</label><input type="text" id="contactName" placeholder="John Doe" required /></div>
+                                    <div class="form-group"><label>Email Address</label><input type="email" id="contactEmail" placeholder="you@example.com" required /></div>
+                                    <div class="form-group"><label>Subject</label><input type="text" id="contactSubject" placeholder="Subject" required /></div>
+                                    <div class="form-group"><label>Message</label><textarea id="contactMessage" rows="4" placeholder="Your message..." required></textarea></div>
+                                    <button type="submit" class="btn-primary btn-full"><i class="fas fa-paper-plane"></i> Send Message</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Privacy -->
+            <section id="privacy-section" class="page-section" data-page="privacy">
+                <div class="static-page-container">
+                    <h2>Privacy Policy</h2>
+                    <div class="static-page-content">
+                        <p><strong>Last Updated:</strong> January 2026</p>
+                        <h3>Information We Collect</h3>
+                        <p>We collect information you provide directly when you book a flight.</p>
+                        <h3>How We Use Your Information</h3>
+                        <ul><li>Process your flight bookings</li><li>Send booking confirmations</li><li>Improve our services</li></ul>
+                        <h3>Data Security</h3>
+                        <p>We implement industry-standard security measures to protect your information.</p>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Terms -->
+            <section id="terms-section" class="page-section" data-page="terms">
+                <div class="static-page-container">
+                    <h2>Terms of Service</h2>
+                    <div class="static-page-content">
+                        <p><strong>Last Updated:</strong> January 2026</p>
+                        <h3>1. Acceptance of Terms</h3>
+                        <p>By using SkyTicket services, you agree to these Terms of Service.</p>
+                        <h3>2. Booking and Payment</h3>
+                        <ul><li>All bookings are subject to availability</li><li>Payment must be completed at the time of booking</li></ul>
+                        <h3>3. Cancellation Policy</h3>
+                        <ul><li>Free cancellation within 24 hours</li><li>Cancellations after 24 hours may incur fees</li></ul>
+                    </div>
                 </div>
             </section>
         </main>
@@ -212,10 +267,10 @@
                     <div class="footer-section">
                         <h5>Quick Links</h5>
                         <ul>
-                            <li><a href="#">About Us</a></li>
-                            <li><a href="#">Contact</a></li>
-                            <li><a href="#">Privacy Policy</a></li>
-                            <li><a href="#">Terms of Service</a></li>
+                            <li><a href="#" data-page="about">About Us</a></li>
+                            <li><a href="#" data-page="contact">Contact</a></li>
+                            <li><a href="#" data-page="privacy">Privacy Policy</a></li>
+                            <li><a href="#" data-page="terms">Terms of Service</a></li>
                         </ul>
                     </div>
                     <div class="footer-section">
@@ -233,89 +288,6 @@
                 </div>
             </div>
         </footer>
-        
-        <!-- LOGIN MODAL -->
-        <div id="loginModal" class="modal hidden">
-            <div class="modal-content">
-                <button class="close-modal" id="closeLoginModal">&times;</button>
-                <div class="modal-header">
-                    <i class="fas fa-plane-departure"></i>
-                    <h2>Welcome Back</h2>
-                    <p>Sign in to continue your journey</p>
-                </div>
-                <form id="loginForm" class="modal-form">
-                    <div class="form-group">
-                        <label><i class="fas fa-envelope"></i> Email Address</label>
-                        <input type="email" id="loginEmail" placeholder="you@example.com" required />
-                        <span class="error-message" id="loginEmailError"></span>
-                    </div>
-                    <div class="form-group">
-                        <label><i class="fas fa-lock"></i> Password</label>
-                        <div class="password-input-wrapper">
-                            <input type="password" id="loginPassword" placeholder="••••••••" required />
-                            <button type="button" class="toggle-password" data-target="loginPassword"><i class="fas fa-eye"></i></button>
-                        </div>
-                        <span class="error-message" id="loginPasswordError"></span>
-                    </div>
-                    <div class="form-options">
-                        <label class="remember-me"><input type="checkbox" id="rememberMe" /><span>Remember me</span></label>
-                        <a href="#" class="forgot-password">Forgot Password?</a>
-                    </div>
-                    <button type="submit" class="btn-full"><i class="fas fa-sign-in-alt"></i> Sign In</button>
-                    <div class="form-footer"><span>Don't have an account? </span><a href="#" id="switchToSignup">Sign Up</a></div>
-                </form>
-            </div>
-        </div>
-
-        <!-- SIGNUP MODAL -->
-        <div id="signupModal" class="modal hidden">
-            <div class="modal-content">
-                <button class="close-modal" id="closeSignupModal">&times;</button>
-                <div class="modal-header">
-                    <i class="fas fa-user-plus"></i>
-                    <h2>Create Account</h2>
-                    <p>Start booking flights in minutes</p>
-                </div>
-                <form id="signupForm" class="modal-form">
-                    <div class="form-group">
-                        <label><i class="fas fa-user"></i> Full Name</label>
-                        <input type="text" id="signupName" placeholder="John Doe" required />
-                        <span class="error-message" id="signupNameError"></span>
-                    </div>
-                    <div class="form-group">
-                        <label><i class="fas fa-envelope"></i> Email Address</label>
-                        <input type="email" id="signupEmail" placeholder="you@example.com" required />
-                        <span class="error-message" id="signupEmailError"></span>
-                    </div>
-                    <div class="form-group">
-                        <label><i class="fas fa-lock"></i> Password</label>
-                        <div class="password-input-wrapper">
-                            <input type="password" id="signupPassword" placeholder="••••••••" required minlength="8" />
-                            <button type="button" class="toggle-password" data-target="signupPassword"><i class="fas fa-eye"></i></button>
-                        </div>
-                        <span class="password-hint">Must be at least 8 characters</span>
-                        <span class="error-message" id="signupPasswordError"></span>
-                    </div>
-                    <div class="form-group">
-                        <label><i class="fas fa-lock"></i> Confirm Password</label>
-                        <div class="password-input-wrapper">
-                            <input type="password" id="signupConfirmPassword" placeholder="••••••••" required />
-                            <button type="button" class="toggle-password" data-target="signupConfirmPassword"><i class="fas fa-eye"></i></button>
-                        </div>
-                        <span class="error-message" id="signupConfirmError"></span>
-                    </div>
-                    <div class="form-group terms">
-                        <label class="checkbox-label">
-                            <input type="checkbox" id="agreeTerms" required />
-                            <span>I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a></span>
-                        </label>
-                        <span class="error-message" id="signupTermsError"></span>
-                    </div>
-                    <button type="submit" class="btn-full"><i class="fas fa-user-plus"></i> Create Account</button>
-                    <div class="form-footer"><span>Already have an account? </span><a href="#" id="switchToLogin">Sign In</a></div>
-                </form>
-            </div>
-        </div>
     </div>
     
     <!-- JAVASCRIPT -->
@@ -326,7 +298,6 @@
     <script src="js/services/mock-data.js"></script>
     <script src="js/store.js"></script>
     <script src="js/modules/header.js"></script>
-    <script src="js/modules/auth.js"></script>
     <script src="js/modules/search.js"></script>
     <script src="js/modules/flights.js"></script>
     <script src="js/modules/booking.js"></script>

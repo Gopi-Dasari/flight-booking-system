@@ -1,5 +1,3 @@
-// Booking Module - Handles seat selection, passenger details, and booking summary
-
 class BookingModule {
     constructor() {
         this.currentStep = 1;
@@ -57,10 +55,7 @@ class BookingModule {
 
     renderStep1() {
         const flight = this.selectedFlight;
-        const seatMap = generateSeatMap(40);
-        
-        // Filter seats - only show available ones
-        const availableSeats = seatMap.filter(s => s.status === 'available');
+        const seatMap = window.generateSeatMap ? window.generateSeatMap(40) : [];
 
         this.elements.bookingContent.innerHTML = `
             <div class="booking-content">
@@ -88,6 +83,9 @@ class BookingModule {
                     </div>
                     <div style="text-align: center; margin-top: var(--spacing-md); padding: var(--spacing-sm); background: var(--gray-200); border-radius: var(--border-radius-md);">
                         <strong>⚠️ You can select up to ${this.maxSeats} seats only</strong>
+                        <div style="font-size: 0.875rem; color: var(--gray-600); margin-top: 4px;">
+                            Click a seat to select it. Click again to deselect.
+                        </div>
                     </div>
                 </div>
 
@@ -151,7 +149,6 @@ class BookingModule {
         `;
 
         this.passengers = [];
-        // Create forms for each selected seat
         for (let i = 0; i < this.selectedSeats.length; i++) {
             this.addPassengerForm(i);
         }
@@ -205,7 +202,6 @@ class BookingModule {
         `;
 
         container.appendChild(form);
-
         this.passengers.push({ name: '', dob: '', passport: '', nationality: '' });
 
         const inputs = form.querySelectorAll('input, select');
@@ -384,8 +380,10 @@ class BookingModule {
         };
 
         // Save booking
-        saveBooking(booking);
-        clearSelectedFlight();
+        let bookings = JSON.parse(localStorage.getItem('skyTicket_bookings') || '[]');
+        bookings.push(booking);
+        localStorage.setItem('skyTicket_bookings', JSON.stringify(bookings));
+        localStorage.removeItem('skyTicket_selectedFlight');
 
         this.elements.bookingContent.innerHTML = `
             <div class="booking-content" style="text-align: center;">
@@ -447,9 +445,7 @@ class BookingModule {
 
     proceedToPassenger() {
         if (this.selectedSeats.length === 0) {
-            if (window.headerModule) {
-                window.headerModule.showNotification('Please select at least one seat', 'error');
-            }
+            alert('Please select at least one seat');
             return;
         }
         this.renderStep2();
@@ -457,9 +453,7 @@ class BookingModule {
 
     proceedToPayment() {
         if (!this.validateAllPassengers()) {
-            if (window.headerModule) {
-                window.headerModule.showNotification('Please fill all passenger details correctly', 'error');
-            }
+            alert('Please fill all passenger details correctly');
             return;
         }
         this.renderStep3();
@@ -491,9 +485,7 @@ class BookingModule {
             return;
         }
 
-        if (window.headerModule) {
-            window.headerModule.showNotification('Processing payment...', 'info');
-        }
+        alert('💳 Processing payment...');
 
         setTimeout(() => {
             this.renderStep4();
@@ -541,25 +533,31 @@ class BookingModule {
             return;
         }
 
-        // Check if max seats reached
-        if (seatData.status === 'available' && this.selectedSeats.length >= this.maxSeats) {
-            if (window.headerModule) {
-                window.headerModule.showNotification(`You can only select up to ${this.maxSeats} seats`, 'error');
-            }
-            return;
-        }
-
-        if (seatData.status === 'available') {
-            seatData.status = 'selected';
-            seatElement.classList.remove('available');
-            seatElement.classList.add('selected');
-            this.selectedSeats.push(seatData);
-        } else if (seatData.status === 'selected') {
+        // If seat is already selected, deselect it
+        if (seatData.status === 'selected') {
             seatData.status = 'available';
             seatElement.classList.remove('selected');
             seatElement.classList.add('available');
             this.selectedSeats = this.selectedSeats.filter(s => s.id !== seatData.id);
+            
+            const countEl = document.getElementById('selectedSeatCount');
+            if (countEl) {
+                countEl.textContent = this.selectedSeats.length;
+            }
+            return;
         }
+
+        // If max seats reached, show error
+        if (this.selectedSeats.length >= this.maxSeats) {
+            alert(`You can only select up to ${this.maxSeats} seats`);
+            return;
+        }
+
+        // Select the seat
+        seatData.status = 'selected';
+        seatElement.classList.remove('available');
+        seatElement.classList.add('selected');
+        this.selectedSeats.push(seatData);
 
         const countEl = document.getElementById('selectedSeatCount');
         if (countEl) {

@@ -67,10 +67,6 @@
     font-weight: 600;
 }
 
-.booking-progress .step.completed .step-label {
-    color: var(--success);
-}
-
 .booking-content {
     background: var(--white);
     border-radius: var(--border-radius-xl);
@@ -139,7 +135,6 @@
     border: 2px solid var(--gray-200);
     border-radius: var(--border-radius-md);
     font-size: var(--font-size-base);
-    transition: all var(--transition-fast);
     background: var(--gray-100);
     outline: none;
 }
@@ -271,6 +266,155 @@
     background: var(--gray-400);
 }
 
+/* Static Pages */
+.static-page-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: var(--spacing-xl);
+}
+
+.static-page-content {
+    background: var(--white);
+    border-radius: var(--border-radius-xl);
+    padding: var(--spacing-2xl);
+    box-shadow: var(--shadow-lg);
+}
+
+.static-page-content h3 {
+    color: var(--primary);
+    margin-top: var(--spacing-xl);
+    margin-bottom: var(--spacing-md);
+}
+
+.static-page-content h3:first-child {
+    margin-top: 0;
+}
+
+.static-page-content p {
+    color: var(--gray-700);
+    line-height: 1.8;
+    margin-bottom: var(--spacing-md);
+}
+
+.static-page-content ul {
+    list-style: none;
+    padding: 0;
+}
+
+.static-page-content ul li {
+    padding: var(--spacing-sm) 0;
+    padding-left: var(--spacing-xl);
+    position: relative;
+    color: var(--gray-700);
+    line-height: 1.6;
+}
+
+.static-page-content ul li::before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    color: var(--success);
+    font-weight: 700;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--spacing-lg);
+    margin-top: var(--spacing-xl);
+    padding-top: var(--spacing-xl);
+    border-top: 1px solid var(--gray-200);
+}
+
+.stat-item {
+    text-align: center;
+}
+
+.stat-number {
+    display: block;
+    font-size: var(--font-size-3xl);
+    font-weight: 800;
+    color: var(--primary);
+}
+
+.stat-label {
+    display: block;
+    font-size: var(--font-size-sm);
+    color: var(--gray-500);
+    margin-top: var(--spacing-xs);
+}
+
+.contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-2xl);
+}
+
+.contact-details {
+    margin-top: var(--spacing-lg);
+}
+
+.contact-item {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--spacing-md);
+    padding: var(--spacing-md) 0;
+    border-bottom: 1px solid var(--gray-100);
+}
+
+.contact-item i {
+    font-size: var(--font-size-xl);
+    color: var(--primary);
+    width: 24px;
+    margin-top: 4px;
+}
+
+.contact-item strong {
+    display: block;
+    color: var(--gray-800);
+}
+
+.contact-item p {
+    color: var(--gray-600);
+    margin: 0;
+}
+
+.contact-form-wrapper {
+    background: var(--gray-100);
+    border-radius: var(--border-radius-lg);
+    padding: var(--spacing-xl);
+}
+
+.contact-form .form-group {
+    margin-bottom: var(--spacing-md);
+}
+
+.contact-form .form-group label {
+    display: block;
+    font-weight: 600;
+    font-size: var(--font-size-sm);
+    color: var(--gray-700);
+    margin-bottom: var(--spacing-xs);
+}
+
+.contact-form .form-group input,
+.contact-form .form-group textarea {
+    width: 100%;
+    padding: var(--spacing-md);
+    border: 2px solid var(--gray-200);
+    border-radius: var(--border-radius-md);
+    font-size: var(--font-size-base);
+    background: var(--white);
+    outline: none;
+    font-family: inherit;
+}
+
+.contact-form .form-group input:focus,
+.contact-form .form-group textarea:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(26, 58, 107, 0.1);
+}
+
 @media (max-width: 768px) {
     .booking-container {
         padding: var(--spacing-md);
@@ -306,5 +450,32 @@
     .seat-map {
         grid-template-columns: repeat(3, 1fr);
         max-width: 100%;
+    }
+
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .contact-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .static-page-container {
+        padding: var(--spacing-md);
+    }
+    
+    .static-page-content {
+        padding: var(--spacing-lg);
+    }
+}
+
+@media (max-width: 480px) {
+    .stats-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: var(--spacing-md);
+    }
+    
+    .stat-number {
+        font-size: var(--font-size-2xl);
     }
 }

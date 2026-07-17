@@ -1,6 +1,4 @@
-/* Tablet Styles - 481px to 768px */
 @media (min-width: 481px) and (max-width: 768px) {
-    /* Typography */
     h1 {
         font-size: var(--font-size-3xl);
     }
@@ -9,16 +7,6 @@
         font-size: var(--font-size-2xl);
     }
 
-    /* Grid */
-    .grid-4 {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-    .grid-3 {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-    /* Search */
     .search-row {
         grid-template-columns: 1fr 1fr;
     }
@@ -31,21 +19,14 @@
         grid-template-columns: repeat(2, 1fr);
     }
 
-    /* Results */
     .results-container {
         padding: var(--spacing-md);
     }
 
-    .results-header {
-        flex-wrap: wrap;
-    }
-
-    /* Flight Card */
     .flight-card .flight-info {
         grid-template-columns: 1fr auto 1fr;
     }
 
-    /* Booking */
     .booking-container {
         padding: var(--spacing-md);
     }
@@ -62,15 +43,8 @@
         grid-template-columns: repeat(4, 1fr);
     }
 
-    /* Footer */
     .footer-content {
         grid-template-columns: 1fr 1fr;
         gap: var(--spacing-lg);
-    }
-
-    /* Modal */
-    .modal-content {
-        padding: var(--spacing-lg);
-        margin: var(--spacing-md);
     }
 }

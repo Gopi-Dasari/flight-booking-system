@@ -50,23 +50,6 @@
     gap: var(--spacing-md);
 }
 
-.flight-results .empty-state {
-    text-align: center;
-    padding: var(--spacing-3xl);
-    color: var(--gray-600);
-}
-
-.flight-results .empty-state i {
-    font-size: 3rem;
-    color: var(--gray-400);
-    display: block;
-    margin-bottom: var(--spacing-md);
-}
-
-.flight-results .empty-state h3 {
-    color: var(--gray-700);
-}
-
 .no-results {
     text-align: center;
     padding: var(--spacing-3xl);

@@ -1,4 +1,6 @@
-// Authentication Module - Handles login, signup, and session management
+// ============================================================
+// AUTH MODULE - Complete
+// ============================================================
 
 class AuthModule {
     constructor() {
@@ -353,7 +355,6 @@ class AuthModule {
     }
 }
 
-// Initialize authentication
 document.addEventListener('DOMContentLoaded', () => {
     window.authModule = new AuthModule();
     window.openLoginModal = () => window.authModule.openModal('login');

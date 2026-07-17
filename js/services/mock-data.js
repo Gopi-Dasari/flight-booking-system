@@ -1,5 +1,3 @@
-// Mock Flight Data with All Cities
-
 const cities = [
     // India
     { name: 'Hyderabad', code: 'HYD', country: 'India' },
@@ -14,9 +12,6 @@ const cities = [
     { name: 'Jaipur', code: 'JAI', country: 'India' },
     { name: 'Lucknow', code: 'LKO', country: 'India' },
     { name: 'Nagpur', code: 'NAG', country: 'India' },
-    { name: 'Indore', code: 'IDR', country: 'India' },
-    { name: 'Bhopal', code: 'BHO', country: 'India' },
-    { name: 'Varanasi', code: 'VNS', country: 'India' },
     
     // USA
     { name: 'New York', code: 'NYC', country: 'USA' },
@@ -25,10 +20,6 @@ const cities = [
     { name: 'Miami', code: 'MIA', country: 'USA' },
     { name: 'San Francisco', code: 'SFO', country: 'USA' },
     { name: 'Boston', code: 'BOS', country: 'USA' },
-    { name: 'Washington DC', code: 'WAS', country: 'USA' },
-    { name: 'Dallas', code: 'DFW', country: 'USA' },
-    { name: 'Houston', code: 'HOU', country: 'USA' },
-    { name: 'Atlanta', code: 'ATL', country: 'USA' },
     
     // Europe
     { name: 'London', code: 'LON', country: 'UK' },
@@ -36,11 +27,6 @@ const cities = [
     { name: 'Berlin', code: 'BER', country: 'Germany' },
     { name: 'Rome', code: 'ROM', country: 'Italy' },
     { name: 'Madrid', code: 'MAD', country: 'Spain' },
-    { name: 'Amsterdam', code: 'AMS', country: 'Netherlands' },
-    { name: 'Vienna', code: 'VIE', country: 'Austria' },
-    { name: 'Prague', code: 'PRG', country: 'Czech Republic' },
-    { name: 'Lisbon', code: 'LIS', country: 'Portugal' },
-    { name: 'Zurich', code: 'ZRH', country: 'Switzerland' },
     
     // Asia
     { name: 'Tokyo', code: 'TYO', country: 'Japan' },
@@ -48,31 +34,16 @@ const cities = [
     { name: 'Singapore', code: 'SIN', country: 'Singapore' },
     { name: 'Bangkok', code: 'BKK', country: 'Thailand' },
     { name: 'Seoul', code: 'SEL', country: 'South Korea' },
-    { name: 'Shanghai', code: 'SHA', country: 'China' },
     { name: 'Hong Kong', code: 'HKG', country: 'China' },
     { name: 'Kuala Lumpur', code: 'KUL', country: 'Malaysia' },
-    { name: 'Taipei', code: 'TPE', country: 'Taiwan' },
-    { name: 'Manila', code: 'MNL', country: 'Philippines' },
     
     // Middle East
     { name: 'Doha', code: 'DOH', country: 'Qatar' },
     { name: 'Riyadh', code: 'RUH', country: 'Saudi Arabia' },
-    { name: 'Kuwait City', code: 'KWI', country: 'Kuwait' },
-    { name: 'Muscat', code: 'MCT', country: 'Oman' },
-    { name: 'Bahrain', code: 'BAH', country: 'Bahrain' },
     
     // Australia
     { name: 'Sydney', code: 'SYD', country: 'Australia' },
     { name: 'Melbourne', code: 'MEL', country: 'Australia' },
-    { name: 'Brisbane', code: 'BNE', country: 'Australia' },
-    { name: 'Perth', code: 'PER', country: 'Australia' },
-    
-    // Africa
-    { name: 'Cape Town', code: 'CPT', country: 'South Africa' },
-    { name: 'Nairobi', code: 'NBO', country: 'Kenya' },
-    { name: 'Cairo', code: 'CAI', country: 'Egypt' },
-    { name: 'Lagos', code: 'LOS', country: 'Nigeria' },
-    { name: 'Johannesburg', code: 'JNB', country: 'South Africa' },
 ];
 
 const airlines = [
@@ -86,16 +57,8 @@ const airlines = [
     { name: 'Lufthansa', code: 'LH', logo: '✈️' },
     { name: 'IndiGo', code: '6E', logo: '✈️' },
     { name: 'SpiceJet', code: 'SG', logo: '✈️' },
-    { name: 'Vistara', code: 'UK', logo: '✈️' },
-    { name: 'Qatar Airways', code: 'QR', logo: '✈️' },
 ];
 
-// Get all cities
-function getCities() {
-    return cities;
-}
-
-// Search cities by query
 function searchCities(query) {
     if (!query || query.length < 1) return [];
     const lowerQuery = query.toLowerCase();
@@ -106,7 +69,6 @@ function searchCities(query) {
     );
 }
 
-// Generate flight
 function generateFlight(from, to, date) {
     const airline = airlines[Math.floor(Math.random() * airlines.length)];
     const departureHour = Math.floor(Math.random() * 24);
@@ -175,7 +137,9 @@ function generateSeatMap(totalSeats = 40) {
     return seats;
 }
 
-// Helper function
-function generateId() {
-    return Date.now().toString(36) + Math.random().toString(36).substr(2, 5);
-}
+// Make globally available
+window.searchCities = searchCities;
+window.searchFlights = searchFlights;
+window.generateSeatMap = generateSeatMap;
+window.getCities = () => cities;
+window.getAirlines = () => airlines;

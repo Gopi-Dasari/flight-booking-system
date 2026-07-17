@@ -1,15 +1,3 @@
-// Local Storage Service
-
-const STORAGE_KEYS = {
-    BOOKINGS: 'skyTicket_bookings',
-    USER: 'skyTicket_user',
-    USERS: 'skyTicket_users',
-    SEARCH_HISTORY: 'skyTicket_searchHistory',
-    SELECTED_FLIGHT: 'skyTicket_selectedFlight',
-    BOOKING_DATA: 'skyTicket_bookingData',
-    PASSENGER_COUNT: 'skyTicket_passengerCount',
-};
-
 function saveToStorage(key, data) {
     try {
         localStorage.setItem(key, JSON.stringify(data));
@@ -40,32 +28,14 @@ function removeFromStorage(key) {
     }
 }
 
-function clearStorage() {
-    try {
-        Object.values(STORAGE_KEYS).forEach(key => {
-            localStorage.removeItem(key);
-        });
-        return true;
-    } catch (error) {
-        console.error('Error clearing localStorage:', error);
-        return false;
-    }
-}
-
-// Bookings
 function saveBooking(booking) {
-    const bookings = getFromStorage(STORAGE_KEYS.BOOKINGS) || [];
+    const bookings = getFromStorage('skyTicket_bookings') || [];
     bookings.push(booking);
-    return saveToStorage(STORAGE_KEYS.BOOKINGS, bookings);
+    return saveToStorage('skyTicket_bookings', bookings);
 }
 
 function getBookings() {
-    return getFromStorage(STORAGE_KEYS.BOOKINGS) || [];
-}
-
-function getBookingByPNR(pnr) {
-    const bookings = getBookings();
-    return bookings.find(booking => booking.pnr === pnr);
+    return getFromStorage('skyTicket_bookings') || [];
 }
 
 function cancelBookingByPNR(pnr) {
@@ -73,66 +43,40 @@ function cancelBookingByPNR(pnr) {
     const index = bookings.findIndex(b => b.pnr === pnr);
     if (index !== -1) {
         bookings[index].status = 'cancelled';
-        return saveToStorage(STORAGE_KEYS.BOOKINGS, bookings);
+        return saveToStorage('skyTicket_bookings', bookings);
     }
     return false;
 }
 
-// Users
-function saveUser(user) {
-    return saveToStorage(STORAGE_KEYS.USER, user);
-}
-
-function getUser() {
-    return getFromStorage(STORAGE_KEYS.USER);
-}
-
-function getUsers() {
-    return getFromStorage(STORAGE_KEYS.USERS) || [];
-}
-
-function saveUsers(users) {
-    return saveToStorage(STORAGE_KEYS.USERS, users);
-}
-
-function findUserByEmail(email) {
-    const users = getUsers();
-    return users.find(u => u.email === email);
-}
-
-// Selected Flight
-function saveSelectedFlight(flight) {
-    return saveToStorage(STORAGE_KEYS.SELECTED_FLIGHT, flight);
-}
-
 function getSelectedFlight() {
-    return getFromStorage(STORAGE_KEYS.SELECTED_FLIGHT);
+    return getFromStorage('skyTicket_selectedFlight');
+}
+
+function saveSelectedFlight(flight) {
+    return saveToStorage('skyTicket_selectedFlight', flight);
 }
 
 function clearSelectedFlight() {
-    return removeFromStorage(STORAGE_KEYS.SELECTED_FLIGHT);
-}
-
-// Passenger Count
-function savePassengerCount(count) {
-    return saveToStorage(STORAGE_KEYS.PASSENGER_COUNT, count);
+    return removeFromStorage('skyTicket_selectedFlight');
 }
 
 function getPassengerCount() {
-    return parseInt(getFromStorage(STORAGE_KEYS.PASSENGER_COUNT)) || 2;
+    return parseInt(getFromStorage('skyTicket_passengerCount')) || 2;
 }
 
-// Search History
-function saveSearchHistory(search) {
-    let history = getFromStorage(STORAGE_KEYS.SEARCH_HISTORY) || [];
-    history.unshift({
-        ...search,
-        timestamp: new Date().toISOString(),
-    });
-    history = history.slice(0, 10);
-    return saveToStorage(STORAGE_KEYS.SEARCH_HISTORY, history);
+function savePassengerCount(count) {
+    return saveToStorage('skyTicket_passengerCount', count);
 }
 
-function getSearchHistory() {
-    return getFromStorage(STORAGE_KEYS.SEARCH_HISTORY) || [];
-}
+// Make globally available
+window.saveToStorage = saveToStorage;
+window.getFromStorage = getFromStorage;
+window.removeFromStorage = removeFromStorage;
+window.saveBooking = saveBooking;
+window.getBookings = getBookings;
+window.cancelBookingByPNR = cancelBookingByPNR;
+window.getSelectedFlight = getSelectedFlight;
+window.saveSelectedFlight = saveSelectedFlight;
+window.clearSelectedFlight = clearSelectedFlight;
+window.getPassengerCount = getPassengerCount;
+window.savePassengerCount = savePassengerCount;

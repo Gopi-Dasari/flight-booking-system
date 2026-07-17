@@ -1,5 +1,3 @@
-// Payment Module - Handles payment processing
-
 class PaymentModule {
     constructor() {
         this.init();
@@ -54,21 +52,36 @@ class PaymentModule {
 
         let isValid = true;
 
+        // Clear previous errors
+        this.clearErrors();
+
+        // Validate Card Number
         if (!cardNumber || cardNumber.length < 16) {
-            this.showError('cardNumber', 'Please enter a valid card number');
+            this.showError('cardNumber', 'Please enter a valid 16-digit card number');
             isValid = false;
         }
 
+        // Validate Expiry
         if (!cardExpiry || !cardExpiry.match(/^\d{2}\/\d{2}$/)) {
             this.showError('cardExpiry', 'Please enter valid expiry date (MM/YY)');
             isValid = false;
+        } else {
+            const [month, year] = cardExpiry.split('/');
+            const expiryDate = new Date(2000 + parseInt(year), parseInt(month) - 1);
+            const today = new Date();
+            if (expiryDate < today) {
+                this.showError('cardExpiry', 'Card has expired');
+                isValid = false;
+            }
         }
 
+        // Validate CVV
         if (!cardCvv || cardCvv.length < 3) {
             this.showError('cardCvv', 'Please enter valid CVV');
             isValid = false;
         }
 
+        // Validate Cardholder Name
         if (!cardName || cardName.length < 2) {
             this.showError('cardName', 'Please enter cardholder name');
             isValid = false;
@@ -89,15 +102,25 @@ class PaymentModule {
         }
     }
 
+    clearErrors() {
+        document.querySelectorAll('.error').forEach(el => {
+            el.classList.remove('error');
+        });
+        document.querySelectorAll('.error-message.visible').forEach(el => {
+            el.classList.remove('visible');
+        });
+    }
+
     processPayment(amount, callback) {
         if (this.validatePayment()) {
-            if (window.headerModule) {
-                window.headerModule.showNotification('Processing payment...', 'info');
-            }
-
+            alert('💳 Processing payment of ' + formatCurrency(amount) + '...');
+            
             setTimeout(() => {
+                alert('✅ Payment successful!');
                 if (callback) callback(true);
             }, 1500);
+        } else {
+            alert('❌ Please fix the errors in the payment form');
         }
     }
 }

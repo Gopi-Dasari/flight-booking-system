@@ -1,77 +1,34 @@
-/* Desktop Styles - 769px and above */
 @media (min-width: 769px) {
-    /* Additional desktop optimizations */
-    .container {
-        padding: 0 var(--spacing-xl);
-    }
-
-    /* Hover effects for desktop */
-    .flight-card {
-        cursor: pointer;
-    }
-
     .flight-card:hover {
         transform: translateY(-4px);
         box-shadow: var(--shadow-xl);
-    }
-
-    .dest-card {
-        cursor: pointer;
     }
 
     .dest-card:hover {
         transform: translateY(-6px) scale(1.02);
     }
 
-    /* Search row desktop optimization */
     .search-row {
         grid-template-columns: 1fr 1fr 1fr 1fr auto;
     }
 
-    /* Sticky header shadow on scroll */
     #main-header.scrolled {
         box-shadow: var(--shadow-lg);
     }
 
-    /* Smooth animations */
     .page-section {
         animation-duration: 0.4s;
     }
 
-    /* Better hover states */
     .btn-primary:hover,
     .btn-accent:hover,
     .btn-secondary:hover {
         transform: translateY(-2px);
     }
 
-    .btn-primary:active,
-    .btn-accent:active,
-    .btn-secondary:active {
-        transform: translateY(0);
-    }
-
-    /* Modal animations */
-    .modal-content {
-        animation: scaleIn 0.3s ease;
-    }
-
-    /* Dropdown menu animations */
-    .dropdown-menu {
-        animation: fadeIn 0.15s ease;
-    }
-
-    /* Notification positioning */
-    .notification {
-        top: 90px;
-        right: 30px;
-    }
-
-    /* Seat map desktop */
     .seat-map .seat {
         padding: var(--spacing-lg) 0;
         font-size: var(--font-size-base);
-        transition: all var(--transition-fast);
     }
 
     .seat-map .seat:hover:not(.booked):not(.unavailable) {

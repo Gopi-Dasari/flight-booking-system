@@ -10,29 +10,22 @@ html {
 
 body {
     font-family: var(--font-family);
-    background: var(--bg-gradient);
+    background: linear-gradient(135deg, #f0f4ff 0%, #e6edf7 100%);
     color: var(--gray-800);
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-    line-height: 1.6;
     padding-top: 70px;
 }
 
 a {
     text-decoration: none;
     color: var(--primary);
-    transition: color var(--transition-fast);
-}
-
-a:hover {
-    color: var(--primary-light);
 }
 
 h1 {
     font-size: var(--font-size-4xl);
     font-weight: 800;
-    letter-spacing: -0.02em;
     color: var(--primary);
 }
 
@@ -49,19 +42,12 @@ h3 {
     margin-bottom: var(--spacing-md);
 }
 
-h4 {
-    font-size: var(--font-size-xl);
-    font-weight: 600;
-}
-
-/* Buttons */
 .btn-primary {
     background: var(--primary);
     color: var(--white);
     padding: var(--spacing-md) var(--spacing-xl);
     border-radius: var(--border-radius-lg);
     font-weight: 600;
-    font-size: var(--font-size-base);
     border: none;
     cursor: pointer;
     transition: all var(--transition-base);
@@ -106,7 +92,6 @@ h4 {
 .btn-accent:hover {
     background: var(--secondary-light);
     transform: translateY(-2px);
-    box-shadow: var(--shadow-md);
 }
 
 .btn-danger {
@@ -139,7 +124,6 @@ h4 {
 .btn-outline:hover {
     background: var(--primary);
     color: var(--white);
-    transform: translateY(-2px);
 }
 
 .btn-sm {
@@ -152,7 +136,6 @@ h4 {
     justify-content: center;
 }
 
-/* Inputs */
 input, select, textarea {
     font-family: var(--font-family);
     font-size: var(--font-size-base);
@@ -174,22 +157,6 @@ input.error, select.error {
     border-color: #dc3545;
 }
 
-input.error:focus, select.error:focus {
-    box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.1);
-}
-
-input::placeholder, textarea::placeholder {
-    color: var(--gray-500);
-}
-
-/* Container */
-.container {
-    max-width: 1280px;
-    margin: 0 auto;
-    padding: 0 var(--spacing-lg);
-}
-
-/* Utilities */
 .hidden {
     display: none !important;
 }
@@ -200,10 +167,6 @@ input::placeholder, textarea::placeholder {
 
 .text-muted {
     color: var(--gray-600);
-}
-
-.text-primary {
-    color: var(--primary);
 }
 
 .text-success {
@@ -233,7 +196,6 @@ input::placeholder, textarea::placeholder {
 .gap-2 { gap: var(--spacing-md); }
 .gap-3 { gap: var(--spacing-lg); }
 
-/* Card */
 .card {
     background: var(--white);
     border-radius: var(--border-radius-lg);
@@ -247,7 +209,6 @@ input::placeholder, textarea::placeholder {
     transform: translateY(-2px);
 }
 
-/* Badge */
 .badge {
     display: inline-block;
     padding: var(--spacing-xs) var(--spacing-md);
@@ -257,13 +218,11 @@ input::placeholder, textarea::placeholder {
     text-transform: uppercase;
 }
 
-.badge-primary { background: var(--primary); color: var(--white); }
 .badge-success { background: #27ae60; color: var(--white); }
-.badge-warning { background: var(--secondary); color: var(--white); }
 .badge-danger { background: #dc3545; color: var(--white); }
+.badge-warning { background: var(--secondary); color: var(--white); }
 .badge-info { background: #17a2b8; color: var(--white); }
 
-/* Scrollbar */
 ::-webkit-scrollbar {
     width: 8px;
     height: 8px;
@@ -283,7 +242,6 @@ input::placeholder, textarea::placeholder {
     background: var(--primary-dark);
 }
 
-/* Spinner */
 .spinner {
     width: 40px;
     height: 40px;
@@ -294,36 +252,6 @@ input::placeholder, textarea::placeholder {
     margin: 0 auto;
 }
 
-.spinner-sm {
-    width: 24px;
-    height: 24px;
-    border-width: 3px;
-}
-
-/* Section */
-.section-padding {
-    padding: var(--spacing-3xl) 0;
-}
-
-.section-title {
-    font-size: var(--font-size-3xl);
-    font-weight: 700;
-    color: var(--primary);
-    margin-bottom: var(--spacing-lg);
-}
-
-.section-subtitle {
-    font-size: var(--font-size-lg);
-    color: var(--gray-600);
-    margin-bottom: var(--spacing-xl);
-}
-
-/* Grid */
-.grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--spacing-lg); }
-.grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--spacing-lg); }
-.grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--spacing-lg); }
-
-/* Page Sections */
 .page-section {
     display: none;
     animation: fadeIn 0.5s ease;
@@ -331,17 +259,4 @@ input::placeholder, textarea::placeholder {
 
 .page-section.active {
     display: block;
-}
-
-/* Loading Skeleton */
-.skeleton {
-    background: var(--gray-200);
-    border-radius: var(--border-radius-md);
-    animation: shimmer 1.5s ease-in-out infinite;
-    background-size: 200% 100%;
-}
-
-@keyframes shimmer {
-    0% { background-position: -200% 0; }
-    100% { background-position: 200% 0; }
 }
